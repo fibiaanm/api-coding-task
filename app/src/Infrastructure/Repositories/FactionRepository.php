@@ -35,20 +35,25 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function create($data): Faction
     {
-        $statement = $this->connection->prepare('INSERT INTO factions (faction_name, description) VALUES (:faction_name, :description)');
+        $statement = $this->connection->prepare('INSERT INTO factions (faction_name, description) VALUES (:name, :description)');
         $statement->execute($data);
 
         $factionId = $this->connection->lastInsertId();
         return $this->find($factionId);
     }
 
-    public function update($id, $data)
+    public function update($id, $data): Faction
     {
-        // TODO: Implement update() method.
+        $statement = $this->connection->prepare('UPDATE factions SET faction_name = :name, description = :description WHERE id = :id');
+        $statement->execute(array_merge($data, ['id' => $id]));
+
+        return $this->find($id);
     }
 
-    public function delete($id)
+    public function delete($id): bool
     {
-        // TODO: Implement delete() method.
+        $statement = $this->connection->prepare('DELETE FROM factions WHERE id = :id');
+        $statement->execute(['id' => $id]);
+        return $statement->rowCount() > 0;
     }
 }

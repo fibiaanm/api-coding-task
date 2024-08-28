@@ -27,4 +27,14 @@ class FactionsService
         return $this->factionRepository->create($data);
     }
 
+    public function update($id, $data)
+    {
+        return $this->factionRepository->update($id, $data);
+    }
+
+    public function delete($id)
+    {
+        return $this->factionRepository->delete($id);
+    }
+
 }
