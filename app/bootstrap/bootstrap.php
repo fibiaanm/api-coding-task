@@ -5,7 +5,6 @@ use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Infrastructure\Repositories\FactionRepository;
 use App\Application\Services\Factions\FactionsService;
-use App\UI\Http\Requests\Request;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 

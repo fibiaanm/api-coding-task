@@ -2,6 +2,31 @@
 
 namespace App\Domain\Repositories;
 
-interface FactionRepositoryInterface extends BasicRepositoryInterface
+use App\Infrastructure\Exceptions\FactionNotCreatedException;
+use App\Infrastructure\Exceptions\FactionNotFoundException;
+use App\Infrastructure\Exceptions\FactionsNotFoundException;
+
+interface FactionRepositoryInterface
 {
+    /**
+     * @throws FactionsNotFoundException
+     */
+    public function all();
+    /**
+     * @throws FactionNotFoundException
+     */
+    public function find($id);
+    /**
+     * @throws FactionNotFoundException
+     * @throws FactionNotCreatedException
+     */
+    public function create($data);
+    /**
+     * @throws FactionNotFoundException
+     */
+    public function update($id, $data);
+    /**
+     * @throws FactionNotFoundException
+     */
+    public function delete($id);
 }

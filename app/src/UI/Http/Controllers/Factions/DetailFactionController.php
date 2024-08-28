@@ -3,6 +3,7 @@
 namespace App\UI\Http\Controllers\Factions;
 
 use App\Application\Services\Factions\FactionsService;
+use App\Infrastructure\Exceptions\FactionNotFoundException;
 
 class DetailFactionController
 {
@@ -14,9 +15,14 @@ class DetailFactionController
 
     public function __invoke($request, $response, $args)
     {
-        $data = $this->factionsService->detail($args['id']);
+        try {
+            $data = $this->factionsService->detail($args['id']);
 
-        $response->getBody()->write(json_encode($data, JSON_UNESCAPED_UNICODE));
-        return $response->withHeader('Content-Type', 'application/json');
+            $response->getBody()->write(json_encode($data, JSON_UNESCAPED_UNICODE));
+            return $response->withHeader('Content-Type', 'application/json');
+        } catch (FactionNotFoundException $e) {
+            $response->getBody()->write(json_encode(['error' => 'Faction not found'], JSON_UNESCAPED_UNICODE));
+            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+        }
     }
 }
