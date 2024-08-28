@@ -33,9 +33,13 @@ class FactionRepository implements FactionRepositoryInterface
         return Faction::fromSqlResponse($factionFetched);
     }
 
-    public function create($data)
+    public function create($data): Faction
     {
-        // TODO: Implement create() method.
+        $statement = $this->connection->prepare('INSERT INTO factions (faction_name, description) VALUES (:faction_name, :description)');
+        $statement->execute($data);
+
+        $factionId = $this->connection->lastInsertId();
+        return $this->find($factionId);
     }
 
     public function update($id, $data)

@@ -18,4 +18,13 @@ class Faction
         $faction->description = $data['description'];
         return $faction;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+        ];
+    }
 }

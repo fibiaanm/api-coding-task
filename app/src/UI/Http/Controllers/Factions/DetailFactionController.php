@@ -10,7 +10,6 @@ class DetailFactionController
         private FactionsService $factionsService
     )
     {
-
     }
 
     public function __invoke($request, $response, $args)

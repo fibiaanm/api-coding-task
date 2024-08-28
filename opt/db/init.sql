@@ -11,6 +11,13 @@ CREATE TABLE `factions` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE `users` (
+`id` int NOT NULL AUTO_INCREMENT,
+`user_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+`user_password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 DROP TABLE IF EXISTS `equipments`;
 CREATE TABLE `equipments` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -34,41 +41,3 @@ CREATE TABLE `characters` (
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`equipment_id`) REFERENCES `equipments` (`id`),
   CONSTRAINT `characters_ibfk_2` FOREIGN KEY (`faction_id`) REFERENCES `factions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-INSERT INTO `factions` (
-  `id`,
-  `faction_name`,
-  `description`
-) VALUES (
-  2,
-  'MORDOR',
-  'Mordor es un país situado al sureste de la Tierra Media, que tuvo gran importancia durante la Guerra del Anillo por ser el lugar donde Sauron, el Señor Oscuro, decidió edificar su fortaleza de Barad-dûr para intentar atacar y dominar a todos los pueblos de la Tierra Media.'
-);
-
-INSERT INTO `equipments` (
-  `id`,
-  `name`,
-  `type`,
-  `made_by`
-) VALUES (
-  1,
-  'Maza de Sauron',
-  'arma',
-  'desconocido'
-);
-
-INSERT INTO `characters` (
-  `id`,
-  `name`,
-  `birth_date`,
-  `kingdom`,
-  `equipment_id`,
-  `faction_id`
-) VALUES (
-  1,
-  'SAURON',
-  '3019-03-25',
-  'AINUR',
-  1,
-  1
-);

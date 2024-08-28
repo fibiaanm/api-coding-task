@@ -22,4 +22,9 @@ class FactionsService
         return $this->factionRepository->find($id);
     }
 
+    public function create($data)
+    {
+        return $this->factionRepository->create($data);
+    }
+
 }
