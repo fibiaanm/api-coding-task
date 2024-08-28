@@ -27,12 +27,8 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 });
 
 $app->get('/', function (Request $request, Response $response) {
-    $data = [
-        'name' => 'Slim Framework',
-        'version' => '4.0'
-    ];
-    $response->getBody()->write(json_encode($data));
-    return $response->withHeader('Content-Type', 'application/json');
+    phpinfo();
+    $response->withHeader('Content-Type', 'text/html');
 });
 
 $app->get('/test', ListFactionsController::class);
