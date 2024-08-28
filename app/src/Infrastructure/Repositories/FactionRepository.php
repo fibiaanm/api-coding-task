@@ -8,6 +8,8 @@ use \PDO;
 
 class FactionRepository implements FactionRepositoryInterface
 {
+    private string $table = 'factions';
+
     function __construct(
         private PDO $connection
     )
@@ -16,7 +18,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function all(): array
     {
-        $statement = $this->connection->query('SELECT * FROM factions');
+        $statement = $this->connection->query("SELECT * FROM $this->table");
         $factionsFetched = $statement->fetchAll();
         $factions = [];
         foreach ($factionsFetched as $factionFetched) {
@@ -27,7 +29,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function find($id): Faction
     {
-        $statement = $this->connection->prepare('SELECT * FROM factions WHERE id = :id');
+        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
         $statement->execute(['id' => $id]);
         $factionFetched = $statement->fetch();
         return Faction::fromSqlResponse($factionFetched);
@@ -35,7 +37,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function create($data): Faction
     {
-        $statement = $this->connection->prepare('INSERT INTO factions (faction_name, description) VALUES (:name, :description)');
+        $statement = $this->connection->prepare("INSERT INTO $this->table (faction_name, description) VALUES (:name, :description)");
         $statement->execute($data);
 
         $factionId = $this->connection->lastInsertId();
@@ -44,7 +46,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function update($id, $data): Faction
     {
-        $statement = $this->connection->prepare('UPDATE factions SET faction_name = :name, description = :description WHERE id = :id');
+        $statement = $this->connection->prepare("UPDATE $this->table SET faction_name = :name, description = :description WHERE id = :id");
         $statement->execute(array_merge($data, ['id' => $id]));
 
         return $this->find($id);
@@ -52,7 +54,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     public function delete($id): bool
     {
-        $statement = $this->connection->prepare('DELETE FROM factions WHERE id = :id');
+        $statement = $this->connection->prepare("DELETE FROM $this->table WHERE id = :id");
         $statement->execute(['id' => $id]);
         return $statement->rowCount() > 0;
     }
