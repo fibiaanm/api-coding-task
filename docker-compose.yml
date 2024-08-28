@@ -15,11 +15,13 @@ services:
       - bridge
 
   db:
-    image: percona:5.7
+    restart: always
+    image: mariadb:10.5.8
     ports:
       - "3306:3306"
     volumes:
       - ./opt/db:/docker-entrypoint-initdb.d
+      - ./config/mariadb/:/etc/mysql/
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: lotr
