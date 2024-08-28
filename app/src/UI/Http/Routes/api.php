@@ -14,7 +14,6 @@ use App\UI\Http\Controllers\Factions\DeleteFactionController;
 /**
  * @var \Slim\App $app
  */
-
 $app->group('/api', function (RouteCollectorProxy $group) {
     $group->get('', HomeController::class);
 
@@ -30,7 +29,7 @@ $app->group('/api', function (RouteCollectorProxy $group) {
 
 });
 
-$app->get('/', function (Request $request, Response $response) {
+$app->get('', function (Request $request, Response $response) {
     phpinfo();
     $response->withHeader('Content-Type', 'text/html');
 });

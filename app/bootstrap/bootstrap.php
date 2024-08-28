@@ -27,5 +27,20 @@ $container->set(FactionsService::class, function () use ($container) {
 // Create the App instance and set the container
 AppFactory::setContainer($container);
 $app = AppFactory::create();
+
+$app->add(function ($request, $handler) {
+    $uri = $request->getUri();
+    $path = $uri->getPath();
+
+    // Remove trailing slash if not root
+    if ($path != '/' && str_ends_with($path, '/')) {
+        // Redirect permanently to URL without trailing slash
+        $uri = $uri->withPath(rtrim($path, '/'));
+        return $response = $handler->handle($request->withUri($uri))->withHeader('Location', (string)$uri)->withStatus(301);
+    }
+
+    return $handler->handle($request);
+});
+
 require __DIR__ . '/../src/UI/Http/Routes/api.php';
 $app->run();
