@@ -16,7 +16,7 @@ class FactionsService
         /**
          * @var FactionRepositoryInterface
          */
-        private CacheDecoratorService $factionRepository
+        private readonly CacheDecoratorService $factionRepository
     ) {
     }
 

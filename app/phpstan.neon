@@ -1,0 +1,9 @@
+parameters:
+    bootstrapFiles:
+        - bootstrap/bootstrap.php
+    level: 1
+    paths:
+        - src  # Adjust this path to your source code directory
+    excludePaths:
+        - tests
+    customRulesetUsed: true
