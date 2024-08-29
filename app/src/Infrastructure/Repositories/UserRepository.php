@@ -12,7 +12,7 @@ use App\Infrastructure\Services\UserSessionTokenGenerator;
 
 class UserRepository implements UserRepositoryInterface
 {
-    private string $table = 'users';
+    public string $table = 'users';
 
     function __construct(
         private \PDO $connection,

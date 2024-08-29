@@ -2,6 +2,7 @@
 
 namespace App\Domain\Repositories;
 
+use App\Application\DataObjects\PaginationObject;
 use App\Domain\Entities\Faction;
 use App\Domain\Entities\FactionCollection;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
@@ -13,7 +14,7 @@ interface FactionRepositoryInterface
     /**
      * @throws FactionsNotFoundException
      */
-    public function all(): FactionCollection;
+    public function all(PaginationObject $pagination): FactionCollection;
     /**
      * @throws FactionNotFoundException
      */

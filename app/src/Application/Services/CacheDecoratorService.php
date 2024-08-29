@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use App\Application\DataObjects\PaginationObject;
 use App\Loaders\SecretsManager;
 
 class CacheDecoratorService
@@ -45,8 +46,24 @@ class CacheDecoratorService
 
     private function generateCacheKey($method, $args): string
     {
-        // Generate a unique cache key based on method name and arguments
-        return $method . serialize($args);
+        $key = '';
+        if (is_object($this->service) && property_exists($this->service, 'table')) {
+            $key .= $this->service->table . ':';
+        }
+        $key .= $method;
+
+        if (count($args) > 0) {
+            $key .= ':';
+        }
+        foreach ($args as $localKey => $arg) {
+            if ($arg instanceof PaginationObject) {
+                $key .= $arg->page . ',' . $arg->limit;
+            } else {
+                $key .= $arg;
+            }
+        }
+
+        return $key;
     }
 
 }

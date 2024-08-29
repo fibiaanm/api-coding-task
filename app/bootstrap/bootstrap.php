@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Application\Services\FactionsService;
 use App\Application\Services\UserService;
+use App\Application\Services\CacheDecoratorService;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\DatabaseConnection;
@@ -46,7 +47,7 @@ $container->set(UserSessionTokenGenerator::class, function () use ($container) {
     );
 });
 $container->set(FactionRepositoryInterface::class, function () use ($container) {
-    return new \App\Application\Services\CacheDecoratorService(
+    return new CacheDecoratorService(
         $container->get(Redis::class),
         $container->get(SecretsManager::class),
         new FactionRepository(

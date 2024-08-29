@@ -11,6 +11,11 @@ class FactionCollection
         $this->factions[] = $faction;
     }
 
+    public function count(): int
+    {
+        return count($this->factions);
+    }
+
     public function toArray(): array
     {
         $factions = [];

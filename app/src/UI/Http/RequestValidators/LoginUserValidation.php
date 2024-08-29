@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UI\Http\Controllers\RequestValidators;
+namespace App\UI\Http\RequestValidators;
 
 use App\UI\Http\Responses\ResponseBuilder;
 use Respect\Validation\Validator;

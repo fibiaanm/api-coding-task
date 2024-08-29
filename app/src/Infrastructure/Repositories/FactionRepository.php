@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repositories;
 
+use App\Application\DataObjects\PaginationObject;
 use App\Domain\Entities\Faction;
 use App\Domain\Entities\FactionCollection;
 use App\Domain\Repositories\FactionRepositoryInterface;
@@ -12,7 +13,7 @@ use \PDO;
 
 class FactionRepository implements FactionRepositoryInterface
 {
-    private string $table = 'factions';
+    public string $table = 'factions';
 
     function __construct(
         private PDO $connection
@@ -20,12 +21,13 @@ class FactionRepository implements FactionRepositoryInterface
     {
     }
 
-    /**
+    /*
      * @throws FactionsNotFoundException
      */
-    public function all(): FactionCollection
+    public function all(PaginationObject $pagination): FactionCollection
     {
-        $statement = $this->connection->query("SELECT * FROM $this->table");
+        $offset = $pagination->getOffset();
+        $statement = $this->connection->query("SELECT * FROM $this->table LIMIT $pagination->limit OFFSET $offset");
         $factionsFetched = $statement->fetchAll();
 
         if (!$factionsFetched) {

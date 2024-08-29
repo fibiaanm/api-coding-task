@@ -2,6 +2,7 @@
 
 namespace App\Application\Services;
 
+use App\Application\DataObjects\PaginationObject;
 use App\Domain\Entities\Faction;
 use App\Domain\Entities\FactionCollection;
 use App\Domain\Repositories\FactionRepositoryInterface;
@@ -12,6 +13,9 @@ use App\Infrastructure\Exceptions\FactionsNotFoundException;
 class FactionsService
 {
     public function __construct(
+        /**
+         * @var FactionRepositoryInterface
+         */
         private CacheDecoratorService $factionRepository
     )
     {
@@ -20,9 +24,11 @@ class FactionsService
     /**
      * @throws FactionsNotFoundException
      */
-    public function list(): FactionCollection
+    public function list(PaginationObject $pagination): FactionCollection
     {
-        return $this->factionRepository->all();
+        $factionCollection = $this->factionRepository->all($pagination);
+        $pagination->setTotal($factionCollection->count());
+        return $factionCollection;
     }
 
     /**
