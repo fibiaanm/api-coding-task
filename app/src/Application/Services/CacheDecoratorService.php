@@ -4,7 +4,7 @@ namespace App\Application\Services;
 
 use App\Loaders\SecretsManager;
 
-class CacheDecorator
+class CacheDecoratorService
 {
 
     public function __construct(

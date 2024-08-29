@@ -12,7 +12,7 @@ use App\Infrastructure\Exceptions\FactionsNotFoundException;
 class FactionsService
 {
     public function __construct(
-        private CacheDecorator $factionRepository
+        private CacheDecoratorService $factionRepository
     )
     {
     }

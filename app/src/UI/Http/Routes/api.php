@@ -39,8 +39,8 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) {
 });
 
 /**
- * TODO: Implementar caché
  * TODO: Implementar documentación
+ * TODO: Implementar testings
  */
 
 $app->group('/auth', function (RouteCollectorProxy $group) {

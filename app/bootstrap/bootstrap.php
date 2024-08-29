@@ -46,7 +46,7 @@ $container->set(UserSessionTokenGenerator::class, function () use ($container) {
     );
 });
 $container->set(FactionRepositoryInterface::class, function () use ($container) {
-    return new \App\Application\Services\CacheDecorator(
+    return new \App\Application\Services\CacheDecoratorService(
         $container->get(Redis::class),
         $container->get(SecretsManager::class),
         new FactionRepository(
