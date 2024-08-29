@@ -63,7 +63,6 @@ class CharacterRepository implements CharacterRepositoryInterface
             ->prepare(
                 "INSERT INTO $this->table (name, birth_date, kingdom, equipment_id, faction_id) VALUES (:name, :birth_date, :kingdom, :equipment_id, :faction_id)
         ");
-        error_log($statement->queryString);
         $statement->execute($data);
         if ($statement->rowCount() === 0) {
             throw new CharacterNotCreatedException($data['name']);

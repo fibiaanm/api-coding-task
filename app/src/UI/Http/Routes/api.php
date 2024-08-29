@@ -13,6 +13,11 @@ use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use App\UI\Http\Controllers\Factions\DetailFactionController;
 use App\UI\Http\Controllers\Factions\ListFactionsController;
 use App\UI\Http\Controllers\Factions\UpdateFactionController;
+use App\UI\Http\Controllers\Equipments\ListEquipmentController;
+use App\UI\Http\Controllers\Equipments\DetailEquipmentController;
+use App\UI\Http\Controllers\Equipments\CreateEquipmentController;
+use App\UI\Http\Controllers\Equipments\UpdateEquipmentController;
+use App\UI\Http\Controllers\Equipments\DeleteEquipmentController;
 use App\UI\Http\Controllers\Characters\ListCharactersController;
 use App\UI\Http\Controllers\Characters\DetailCharacterController;
 use App\UI\Http\Controllers\Characters\CreateCharacterController;
@@ -122,6 +127,53 @@ $app->group(
                         $factions->delete(
                             '/{id:[0-9]+}',
                             DeleteFactionController::class
+                        );
+                    }
+                )
+                ->add(
+                    authorization(['admin'])
+                )
+                ->add(
+                    AuthMiddleware::class
+                );
+            }
+        );
+
+        $apiGroup->group(
+            '/equipments',
+            function (
+                RouteCollectorProxy $equipments
+            ) {
+                $equipments->get(
+                    '',
+                    ListEquipmentController::class
+                )->add(
+                    PaginationValidator::class
+                );
+
+                $equipments->get(
+                    '/{id:[0-9]+}',
+                    DetailEquipmentController::class
+                );
+
+                $equipments->group(
+                    '',
+                    function (
+                        RouteCollectorProxy $equipments
+                    ) {
+                        $equipments->post(
+                            '',
+                            CreateEquipmentController::class
+                        );
+
+                        $equipments->put(
+                            '/{id:[0-9]+}',
+                            UpdateEquipmentController::class
+                        );
+
+                        $equipments->delete(
+                            '/{id:[0-9]+}',
+                            DeleteEquipmentController::class
                         );
                     }
                 )

@@ -5,13 +5,16 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Application\Services\FactionsService;
 use App\Application\Services\CharacterService;
 use App\Application\Services\UserService;
+use App\Application\Services\EquipmentService;
 use App\Application\Services\CacheDecoratorService;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Domain\Repositories\CharacterRepositoryInterface;
+use App\Domain\Repositories\EquipmentRepositoryInterface;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Persistence\RedisConnection;
 use App\Infrastructure\Repositories\FactionRepository;
+use App\Infrastructure\Repositories\EquipmentRepository;
 use App\Infrastructure\Repositories\UserRepository;
 use App\Infrastructure\Repositories\CharacterRepository;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
@@ -70,16 +73,29 @@ try {
             )
         );
     });
+    $container->set(EquipmentRepositoryInterface::class, function () use ($container) {
+        return new CacheDecoratorService(
+            $container->get(Redis::class),
+            $container->get(SecretsManager::class),
+            new EquipmentRepository(
+                $container->get(PDO::class)
+            )
+        );
+    });
 
     $container->set(FactionsService::class, function () use ($container) {
         return new FactionsService(
             $container->get(FactionRepositoryInterface::class)
         );
     });
-
     $container->set(CharacterService::class, function () use ($container) {
         return new CharacterService(
             $container->get(CharacterRepositoryInterface::class)
+        );
+    });
+    $container->set(EquipmentService::class, function () use ($container) {
+        return new EquipmentService(
+            $container->get(EquipmentRepositoryInterface::class)
         );
     });
 
