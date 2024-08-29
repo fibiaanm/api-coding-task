@@ -85,7 +85,7 @@ class ListCharactersController
             )
         ]
     )]
-    public function __invoke(Request $request, Response $response, $args): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         try {
             $page = $request->getQueryParams()['page'] ?? 1;

@@ -87,7 +87,7 @@ class CreateCharacterController
             )
         ]
     )]
-    public function __invoke(Request $request, Response $response, $args): Response
+    public function __invoke(Request $request, Response $response): Response
     {
         try {
             $encodedData = $request->getBody();
