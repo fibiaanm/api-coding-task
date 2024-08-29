@@ -1,0 +1,1 @@
+{"version":1,"defects":[],"times":{"HomeControllerTest::testHomePage":0,"DetailFactionControllerTest::testDetailFactionPage":0,"ListFactionsControllerTest::testListFactionsPage":0.001,"CreateFactionControllerTest::testCreateFactionPage":0.004,"DeleteFactionControllerTest::testDeleteFactionPage":0,"UpdateFactionControllerTest::testUpdateFactionPage":0}}

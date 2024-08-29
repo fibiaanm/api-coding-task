@@ -32,5 +32,8 @@
   },
   "scripts": {
     "swagger": "vendor/bin/openapi src/ --output public/swagger.json"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
   }
 }
