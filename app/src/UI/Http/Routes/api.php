@@ -33,11 +33,12 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) {
 });
 
 /**
- * TODO: Implementar validadores
+ * TODO: Implementar validadoress
  * TODO: Builder de responses
  * TODO: Implementar autorización
  * TODO: Implementar caché
  * TODO: Implementar documentación
+ * TODO: Singletón autenticación
  */
 
 $app->group('/auth', function (RouteCollectorProxy $group) {

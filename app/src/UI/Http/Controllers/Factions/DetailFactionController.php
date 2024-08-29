@@ -4,6 +4,9 @@ namespace App\UI\Http\Controllers\Factions;
 
 use App\Application\Services\FactionsService;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
+use App\UI\Http\Responses\ResponseBuilder;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
 class DetailFactionController
 {
@@ -13,16 +16,14 @@ class DetailFactionController
     {
     }
 
-    public function __invoke($request, $response, $args)
+    public function __invoke(Request $request, Response $response, $args): Response
     {
         try {
             $data = $this->factionsService->detail($args['id']);
 
-            $response->getBody()->write(json_encode($data->toArray(), JSON_UNESCAPED_UNICODE));
-            return $response->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::success($data->toArray());
         } catch (FactionNotFoundException $e) {
-            $response->getBody()->write(json_encode(['error' => 'Faction not found'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::notFound('Faction not found');
         }
     }
 }

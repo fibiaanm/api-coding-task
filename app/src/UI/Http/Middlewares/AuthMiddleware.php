@@ -7,6 +7,7 @@ use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenExpired;
 use App\Infrastructure\Exceptions\UserTokenInvalidException;
 use App\Infrastructure\Exceptions\UserTokenNotProvidedException;
+use App\UI\Http\Responses\ResponseBuilder;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -32,22 +33,13 @@ class AuthMiddleware
             $request = $request->withAttribute('user', $user);
             return $handler->handle($request);
         } catch (UserNotFoundException $e) {
-            $response = new Response();
-            $response->getBody()->write(json_encode(['error' => 'Unrecognized token'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::unauthorized('Unauthorized');
         } catch (UserTokenExpired $e) {
-            $response = new Response();
-            $response->getBody()->write(json_encode(['error' => 'Token expired'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::unauthorized('Token expired');
         } catch (UserTokenNotProvidedException|UserTokenInvalidException $e) {
-            $response = new Response();
-            $response->getBody()->write(json_encode(['error' => 'Unauthorized'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::unauthorized('Token not provided or invalid');
         } catch (\Exception $e) {
-            var_dump($e);
-            $response = new Response();
-            $response->getBody()->write(json_encode(['error' => 'Internal server error in middleware'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::serverError('Internal server error');
         }
     }
 }

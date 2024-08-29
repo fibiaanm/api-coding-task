@@ -6,6 +6,7 @@ use App\Application\Exceptions\InvalidUserPasswordException;
 use App\Application\Services\UserService;
 use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenCannotCreateException;
+use App\UI\Http\Responses\ResponseBuilder;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -24,16 +25,13 @@ class LoginController
 
             $user = $this->userService->login($data['name'], $data['password']);
 
-            $response->getBody()->write(json_encode([
+            return ResponseBuilder::success([
                 'user' => $user->toArray()
-            ], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+            ]);
         } catch (UserNotFoundException $e) {
-            $response->getBody()->write(json_encode(['error' => 'User not found'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::unauthorized("User not found");
         } catch (InvalidUserPasswordException|UserTokenCannotCreateException $e) {
-            $response->getBody()->write(json_encode(['error' => $e->getMessage()], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::unauthorized("Invalid password");
         }
     }
 }

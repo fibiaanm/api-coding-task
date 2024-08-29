@@ -4,6 +4,7 @@ namespace App\UI\Http\Controllers\Factions;
 
 use App\Application\Services\FactionsService;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
+use App\UI\Http\Responses\ResponseBuilder;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
@@ -23,12 +24,10 @@ class UpdateFactionController
 
             $faction = $this->factionsService->update($args['id'], $dataFromRequest);
 
-            $response->getBody()->write(json_encode($faction, JSON_UNESCAPED_UNICODE));
-            return $response->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::success($faction);
 
         } catch (FactionNotFoundException $e) {
-            $response->getBody()->write(json_encode(['error' => 'Faction not found'], JSON_UNESCAPED_UNICODE));
-            return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
+            return ResponseBuilder::notFound('Faction not found');
         }
     }
 
