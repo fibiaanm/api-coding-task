@@ -27,6 +27,8 @@ use App\UI\Http\Controllers\Users\LoginController;
 use App\UI\Http\Controllers\Api\DocumentationController;
 use App\UI\Http\Middlewares\AuthMiddleware;
 use App\UI\Http\RequestValidators\CreateFactionValidator;
+use App\UI\Http\RequestValidators\CreateCharacterValidator;
+use App\UI\Http\RequestValidators\CreateEquipmentValidator;
 use App\UI\Http\RequestValidators\LoginUserValidation;
 use App\UI\Http\RequestValidators\PaginationValidator;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -70,11 +72,17 @@ $app->group(
                         $characters->post(
                             '',
                             CreateCharacterController::class
+                        )
+                        ->add(
+                            CreateCharacterValidator::class
                         );
 
                         $characters->put(
                             '/{id:[0-9]+}',
                             UpdateCharacterController::class
+                        )
+                        ->add(
+                            CreateCharacterValidator::class
                         );
 
                         $characters->delete(
@@ -165,11 +173,17 @@ $app->group(
                         $equipments->post(
                             '',
                             CreateEquipmentController::class
+                        )
+                        ->add(
+                            CreateEquipmentValidator::class
                         );
 
                         $equipments->put(
                             '/{id:[0-9]+}',
                             UpdateEquipmentController::class
+                        )
+                        ->add(
+                            CreateEquipmentValidator::class
                         );
 
                         $equipments->delete(
