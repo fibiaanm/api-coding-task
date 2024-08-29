@@ -16,9 +16,7 @@ class AuthorizationMiddleware
     public function __invoke($request, $handler)
     {
         $user = user()->get();
-        $userRoles = $user->roles;
-        $intersect = array_intersect($this->roles, $userRoles);
-        if (empty($intersect)) {
+        if (!$user->roles->hasRole($this->roles)) {
             return ResponseBuilder::forbidden('Forbidden');
         }
         // Go to next middleware
