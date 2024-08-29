@@ -1,0 +1,39 @@
+name: Code Quality Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        uses: docker/compose-action@v2
+        with:
+          docker-compose-file: docker-compose.yml
+
+      - name: Build and start Docker containers
+        run: docker-compose up -d --build
+
+      - name: Install PHP CodeSniffer and PHPStan
+        run: |
+          docker-compose exec -T php composer install
+          docker-compose exec -T php composer require --dev squizlabs/php_codesniffer phpstan/phpstan
+
+      - name: Run PHP CodeSniffer
+        run: docker-compose exec -T php vendor/bin/phpcs
+
+      - name: Run PHPStan
+        run: docker-compose exec -T php vendor/bin/phpstan analyse
+
+      - name: Stop and remove Docker containers
+        run: docker-compose down
