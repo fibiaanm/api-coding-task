@@ -3,7 +3,24 @@
 namespace App\Application\DataObjects;
 
 use Slim\Psr7\Request;
+use OpenApi\Attributes as OA;
 
+#[OA\Parameter(
+    parameter: 'PageParameter',
+    name: 'page',
+    description: 'Page number for pagination',
+    in: 'query',
+    required: false,
+    schema: new OA\Schema(type: 'integer', example: 1)
+)]
+#[OA\Parameter(
+    parameter: 'LimitParameter',
+    name: 'limit',
+    description: 'Number of items per page',
+    in: 'query',
+    required: false,
+    schema: new OA\Schema(type: 'integer', example: 10)
+)]
 class PaginationObject
 {
 

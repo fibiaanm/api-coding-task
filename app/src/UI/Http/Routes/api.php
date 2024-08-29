@@ -8,6 +8,7 @@ use App\UI\Http\Controllers\Factions\DetailFactionController;
 use App\UI\Http\Controllers\Factions\ListFactionsController;
 use App\UI\Http\Controllers\Factions\UpdateFactionController;
 use App\UI\Http\Controllers\Users\LoginController;
+use App\UI\Http\Controllers\Api\DocumentationController;
 use App\UI\Http\Middlewares\AuthMiddleware;
 use App\UI\Http\RequestValidators\CreateFactionValidator;
 use App\UI\Http\RequestValidators\LoginUserValidation;
@@ -21,6 +22,7 @@ use Slim\Routing\RouteCollectorProxy;
  */
 $app->group('/api', function (RouteCollectorProxy $apiGroup) {
     $apiGroup->get('', HomeController::class);
+    $apiGroup->get('/documentation', DocumentationController::class);
 
     $apiGroup->group('/factions', function (RouteCollectorProxy $factions) {
         $factions->get('', ListFactionsController::class)
