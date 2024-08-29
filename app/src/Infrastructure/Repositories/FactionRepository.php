@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Application\DataObjects\PaginationObject;
 use App\Domain\Entities\Faction;
 use App\Domain\Entities\FactionCollection;
+use App\Domain\Repositories\BaseRepositoryInterface;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
@@ -14,10 +15,15 @@ use \PDO;
 class FactionRepository implements FactionRepositoryInterface
 {
     public string $table = 'factions';
+    private BaseRepositoryInterface $baseRepository;
 
     function __construct(
-        private PDO $connection
+        private readonly PDO $connection
     ) {
+        $this->baseRepository = new BaseRepository(
+            $connection,
+            $this->table
+        );
     }
 
     /*
@@ -25,9 +31,7 @@ class FactionRepository implements FactionRepositoryInterface
      */
     public function all(PaginationObject $pagination): FactionCollection
     {
-        $offset = $pagination->getOffset();
-        $statement = $this->connection->query("SELECT * FROM $this->table LIMIT $pagination->limit OFFSET $offset");
-        $factionsFetched = $statement->fetchAll();
+        $factionsFetched = $this->baseRepository->all($pagination);
 
         if (!$factionsFetched) {
             throw new FactionsNotFoundException();
@@ -45,9 +49,7 @@ class FactionRepository implements FactionRepositoryInterface
      */
     public function find($id): Faction
     {
-        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
-        $statement->execute(['id' => $id]);
-        $factionFetched = $statement->fetch();
+        $factionFetched = $this->baseRepository->find($id);
 
         if (!$factionFetched) {
             throw new FactionNotFoundException($id);
@@ -69,8 +71,9 @@ class FactionRepository implements FactionRepositoryInterface
             throw new FactionNotCreatedException();
         }
 
-        $factionId = $this->connection->lastInsertId();
-        return $this->find($factionId);
+        $created = $this->connection->lastInsertId();
+
+        return $this->find($created);
     }
 
     /**
@@ -80,7 +83,6 @@ class FactionRepository implements FactionRepositoryInterface
     {
         $statement = $this->connection->prepare("UPDATE $this->table SET faction_name = :name, description = :description WHERE id = :id");
         $statement->execute(array_merge($data, ['id' => $id]));
-
         return $this->find($id);
     }
 
@@ -90,9 +92,7 @@ class FactionRepository implements FactionRepositoryInterface
     public function delete($id): bool
     {
         $this->find($id);
-        $statement = $this->connection->prepare("DELETE FROM $this->table WHERE id = :id");
-        $statement->execute(['id' => $id]);
-        return $statement->rowCount() > 0;
+        return $this->baseRepository->delete($id);
     }
 
     public function convertFromCache(array $data): Faction|FactionCollection

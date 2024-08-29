@@ -3,14 +3,17 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Application\Services\FactionsService;
+use App\Application\Services\CharacterService;
 use App\Application\Services\UserService;
 use App\Application\Services\CacheDecoratorService;
 use App\Domain\Repositories\FactionRepositoryInterface;
+use App\Domain\Repositories\CharacterRepositoryInterface;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Persistence\RedisConnection;
 use App\Infrastructure\Repositories\FactionRepository;
 use App\Infrastructure\Repositories\UserRepository;
+use App\Infrastructure\Repositories\CharacterRepository;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
 use App\Infrastructure\Services\AuthenticatedUserService;
 use App\Loaders\SecretsManager;
@@ -58,9 +61,25 @@ try {
             )
         );
     });
+    $container->set(CharacterRepositoryInterface::class, function () use ($container) {
+        return new CacheDecoratorService(
+            $container->get(Redis::class),
+            $container->get(SecretsManager::class),
+            new CharacterRepository(
+                $container->get(PDO::class)
+            )
+        );
+    });
+
     $container->set(FactionsService::class, function () use ($container) {
         return new FactionsService(
             $container->get(FactionRepositoryInterface::class)
+        );
+    });
+
+    $container->set(CharacterService::class, function () use ($container) {
+        return new CharacterService(
+            $container->get(CharacterRepositoryInterface::class)
         );
     });
 
@@ -101,7 +120,12 @@ try {
     http_response_code(404);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Route not found'], JSON_UNESCAPED_UNICODE);
-}catch (Exception $e) {
+}catch (\Slim\Exception\HttpMethodNotAllowedException $e) {
+    http_response_code(405);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Method not allowed'], JSON_UNESCAPED_UNICODE);
+}
+catch (Exception $e) {
     error_log($e->getMessage());
     http_response_code(500);
     header('Content-Type: application/json');

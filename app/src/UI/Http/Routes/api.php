@@ -13,6 +13,11 @@ use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use App\UI\Http\Controllers\Factions\DetailFactionController;
 use App\UI\Http\Controllers\Factions\ListFactionsController;
 use App\UI\Http\Controllers\Factions\UpdateFactionController;
+use App\UI\Http\Controllers\Characters\ListCharactersController;
+use App\UI\Http\Controllers\Characters\DetailCharacterController;
+use App\UI\Http\Controllers\Characters\CreateCharacterController;
+use App\UI\Http\Controllers\Characters\UpdateCharacterController;
+use App\UI\Http\Controllers\Characters\DeleteCharacterController;
 use App\UI\Http\Controllers\Users\LoginController;
 use App\UI\Http\Controllers\Api\DocumentationController;
 use App\UI\Http\Middlewares\AuthMiddleware;
@@ -33,6 +38,53 @@ $app->group(
     ) {
         $apiGroup->get('', HomeController::class);
         $apiGroup->get('/documentation', DocumentationController::class);
+
+        $apiGroup->group(
+            '/characters',
+            function (
+                RouteCollectorProxy $characters
+            ) {
+                $characters->get(
+                    '',
+                    ListCharactersController::class
+                )->add(
+                    PaginationValidator::class
+                );
+
+                $characters->get(
+                    '/{id:[0-9]+}',
+                    DetailCharacterController::class
+                );
+
+                $characters->group(
+                    '',
+                    function (
+                        RouteCollectorProxy $characters
+                    ) {
+                        $characters->post(
+                            '',
+                            CreateCharacterController::class
+                        );
+
+                        $characters->put(
+                            '/{id:[0-9]+}',
+                            UpdateCharacterController::class
+                        );
+
+                        $characters->delete(
+                            '/{id:[0-9]+}',
+                            DeleteCharacterController::class
+                        );
+                    }
+                )
+                ->add(
+                    authorization(['admin'])
+                )
+                    ->add(
+                        AuthMiddleware::class
+                    );
+            }
+        );
 
         $apiGroup->group(
             '/factions',
