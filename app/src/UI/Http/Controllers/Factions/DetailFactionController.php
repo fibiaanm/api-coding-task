@@ -14,8 +14,7 @@ class DetailFactionController
 {
     function __construct(
         private FactionsService $factionsService
-    )
-    {
+    ) {
     }
 
     #[OA\Get(

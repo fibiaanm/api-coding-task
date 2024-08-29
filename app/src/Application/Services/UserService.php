@@ -16,8 +16,7 @@ class UserService
     function __construct(
         private UserRepositoryInterface $userRepository,
         private AuthenticatedUserService $authenticatedUserService
-    )
-    {
+    ) {
     }
 
     /**

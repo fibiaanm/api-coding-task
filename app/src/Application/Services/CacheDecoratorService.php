@@ -12,8 +12,7 @@ class CacheDecoratorService
         private \Redis $redis,
         private SecretsManager $secrets,
         private $service
-    )
-    {
+    ) {
     }
 
     /**

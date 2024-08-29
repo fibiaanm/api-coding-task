@@ -17,8 +17,7 @@ class UserRepository implements UserRepositoryInterface
     function __construct(
         private \PDO $connection,
         private UserSessionTokenGenerator $tokenGenerator,
-    )
-    {
+    ) {
     }
 
     /**

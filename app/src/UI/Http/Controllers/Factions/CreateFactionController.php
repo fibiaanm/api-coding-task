@@ -16,8 +16,7 @@ class CreateFactionController
 
     function __construct(
         private FactionsService $factionsService
-    )
-    {
+    ) {
 
     }
 

@@ -9,8 +9,7 @@ class AuthorizationMiddleware
 
     public function __construct(
         private array $roles
-    )
-    {
+    ) {
     }
 
     public function __invoke($request, $handler)

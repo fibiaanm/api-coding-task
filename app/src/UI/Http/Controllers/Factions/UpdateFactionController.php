@@ -15,8 +15,7 @@ class UpdateFactionController
 {
     public function __construct(
         private FactionsService $factionsService
-    )
-    {
+    ) {
     }
 
     #[OA\Put(

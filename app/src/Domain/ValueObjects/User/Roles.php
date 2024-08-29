@@ -7,8 +7,7 @@ class Roles
 
     public function __construct(
         private array $roles
-    )
-    {
+    ) {
     }
 
     public static function fromString(string $roles): Roles

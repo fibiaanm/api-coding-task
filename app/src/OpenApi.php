@@ -71,7 +71,7 @@ use OpenApi\Attributes as OA;
     description: 'Description of your API',
     title: 'Your API Title'
 )]
-class openapi
+class OpenApi
 {
 
 }

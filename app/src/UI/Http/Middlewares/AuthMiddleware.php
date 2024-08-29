@@ -16,8 +16,7 @@ class AuthMiddleware
 
     function __construct(
         private UserService $userService
-    )
-    {
+    ) {
 
     }
 

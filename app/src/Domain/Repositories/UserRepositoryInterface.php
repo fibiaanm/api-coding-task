@@ -11,7 +11,7 @@ use App\Infrastructure\Exceptions\UserTokenInvalidException;
 interface UserRepositoryInterface
 {
     /**
-     * @param $name
+     * @param  $name
      * @return mixed
      * @throws UserNotFoundException
      */

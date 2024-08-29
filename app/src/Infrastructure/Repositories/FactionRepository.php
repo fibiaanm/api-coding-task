@@ -17,8 +17,7 @@ class FactionRepository implements FactionRepositoryInterface
 
     function __construct(
         private PDO $connection
-    )
-    {
+    ) {
     }
 
     /*

@@ -16,7 +16,7 @@ class LoginController
 {
     function __construct(
         private UserService $userService
-    ){
+    ) {
     }
 
     #[OA\Post(
@@ -100,9 +100,11 @@ class LoginController
 
             $user = $this->userService->login($data['name'], $data['password']);
 
-            return ResponseBuilder::success([
+            return ResponseBuilder::success(
+                [
                 'user' => $user->toArray()
-            ]);
+                ]
+            );
         } catch (UserNotFoundException $e) {
             return ResponseBuilder::notFound("User not found");
         } catch (InvalidUserPasswordException|UserTokenCannotCreateException $e) {

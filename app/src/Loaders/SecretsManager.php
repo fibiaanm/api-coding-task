@@ -8,15 +8,15 @@ class SecretsManager
 {
     function __construct(
         public array $secrets
-    )
-    {
+    ) {
     }
 
     static function build(): SecretsManager
     {
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
-        return new SecretsManager([
+        return new SecretsManager(
+            [
             'db' => [
                 'host' => $_ENV['DB_HOST'],
                 'user' => $_ENV['DB_USER'],
@@ -31,7 +31,8 @@ class SecretsManager
                 'port' => $_ENV['REDIS_PORT'],
                 'expire' => $_ENV['REDIS_EXPIRE'],
             ]
-        ]);
+            ]
+        );
     }
 
 }

@@ -11,8 +11,7 @@ class RedisConnection
      */
     static function connect(
         SecretsManager $secrets
-    ): \Redis
-    {
+    ): \Redis {
         $redis = new \Redis();
         $redis->connect(
             $secrets->secrets['redis']['host'],

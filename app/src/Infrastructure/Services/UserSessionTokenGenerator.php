@@ -16,8 +16,7 @@ class UserSessionTokenGenerator
 
     public function __construct(
         SecretsManager $secrets
-    )
-    {
+    ) {
         self::$key = $secrets->secrets['jwt']['key'];
     }
 

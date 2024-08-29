@@ -9,8 +9,7 @@ class DatabaseConnection
 {
     static function connect(
         SecretsManager $secrets
-    ): PDO
-    {
+    ): PDO {
         $host = $secrets->secrets['db']['host'];
         $user = $secrets->secrets['db']['user'];
         $pass = $secrets->secrets['db']['password'];

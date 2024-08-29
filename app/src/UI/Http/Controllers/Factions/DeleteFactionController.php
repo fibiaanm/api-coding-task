@@ -14,8 +14,7 @@ class DeleteFactionController
 
     public function __construct(
         private FactionsService $factionsService
-    )
-    {
+    ) {
 
     }
 

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Main application routes and configuration.
+ *
+ * @package    App
+ * @subpackage UI\Http
+ */
 
 use App\UI\Http\Controllers\Api\HomeController;
 use App\UI\Http\Controllers\Factions\CreateFactionController;
@@ -20,41 +26,85 @@ use Slim\Routing\RouteCollectorProxy;
 /**
  * @var \Slim\App $app
  */
-$app->group('/api', function (RouteCollectorProxy $apiGroup) {
-    $apiGroup->get('', HomeController::class);
-    $apiGroup->get('/documentation', DocumentationController::class);
+$app->group(
+    '/api',
+    function (
+        RouteCollectorProxy $apiGroup
+    ) {
+        $apiGroup->get('', HomeController::class);
+        $apiGroup->get('/documentation', DocumentationController::class);
 
-    $apiGroup->group('/factions', function (RouteCollectorProxy $factions) {
-        $factions->get('', ListFactionsController::class)
-            ->add(PaginationValidator::class);
-        $factions->get('/{id:[0-9]+}', DetailFactionController::class);
+        $apiGroup->group(
+            '/factions',
+            function (
+                RouteCollectorProxy $factions
+            ) {
+                $factions->get(
+                    '',
+                    ListFactionsController::class
+                )->add(
+                    PaginationValidator::class
+                );
+                $factions->get(
+                    '/{id:[0-9]+}',
+                    DetailFactionController::class
+                );
 
-        $factions->group('', function (RouteCollectorProxy $factions) {
-            $factions->post('', CreateFactionController::class)
-                ->add(CreateFactionValidator::class);
-            $factions->put('/{id:[0-9]+}', UpdateFactionController::class)
-                ->add(CreateFactionValidator::class);
-            $factions->delete('/{id:[0-9]+}', DeleteFactionController::class);
-        })
-            ->add(authorization(['admin']))
-            ->add(AuthMiddleware::class);
-
-    });
-});
+                $factions->group(
+                    '',
+                    function (
+                        RouteCollectorProxy $factions
+                    ) {
+                        $factions->post(
+                            '',
+                            CreateFactionController::class
+                        )->add(
+                            CreateFactionValidator::class
+                        );
+                        $factions->put(
+                            '/{id:[0-9]+}',
+                            UpdateFactionController::class
+                        )->add(
+                            CreateFactionValidator::class
+                        );
+                        $factions->delete(
+                            '/{id:[0-9]+}',
+                            DeleteFactionController::class
+                        );
+                    }
+                )
+                ->add(
+                    authorization(['admin'])
+                )
+                ->add(
+                    AuthMiddleware::class
+                );
+            }
+        );
+    }
+);
 
 /**
- * TODO: Implementar documentación
- * TODO: Implementar testings
+ * TODO: Implement documentation
+ * TODO: Implement testing
  */
 
-$app->group('/auth', function (RouteCollectorProxy $group) {
-    $group->post('/login', LoginController::class)
-        ->add(LoginUserValidation::class);
-});
+$app->group(
+    '/auth', function (RouteCollectorProxy $group) {
+        $group->post(
+            '/login',
+            LoginController::class
+        )->add(
+            LoginUserValidation::class
+        );
+    }
+);
 
-$app->get('', function (Request $request, Response $response) {
-    phpinfo();
-    $response->withHeader('Content-Type', 'text/html');
-});
+$app->get(
+    '', function (Request $request, Response $response) {
+        phpinfo();
+        $response->withHeader('Content-Type', 'text/html');
+    }
+);
 
 $app->get('/test', ListFactionsController::class);

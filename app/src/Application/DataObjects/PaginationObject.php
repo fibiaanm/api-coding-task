@@ -28,8 +28,8 @@ class PaginationObject
         public int $page,
         public int $limit,
         public int $total = 0,
-    )
-    {
+    ) {
+
     }
 
     public function getOffset(): int

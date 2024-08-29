@@ -16,8 +16,7 @@ class ListFactionsController
 
     function __construct(
         private readonly FactionsService $factionsService
-    )
-    {
+    ) {
 
     }
 
@@ -97,10 +96,12 @@ class ListFactionsController
             $factions = $this->factionsService->list($pagination);
 
             // Return the response with factions and next page link
-            return ResponseBuilder::success([
+            return ResponseBuilder::success(
+                [
                 'next_page' => $pagination->buildNextPageLink($request),
                 'factions' => $factions->toArray(),
-            ]);
+                ]
+            );
         } catch (FactionsNotFoundException $e) {
             return ResponseBuilder::notFound('Factions not found');
         } catch (\Exception $e) {
