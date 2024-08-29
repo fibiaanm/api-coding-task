@@ -33,7 +33,7 @@ jobs:
           docker-compose exec -T php composer require --dev squizlabs/php_codesniffer phpstan/phpstan
 
       - name: Run PHP CodeSniffer
-        run: docker-compose exec -T php vendor/bin/phpcs
+        run: docker-compose exec -T php vendor/bin/phpcs src/
 
       - name: Run PHPStan
         run: docker-compose exec -T php vendor/bin/phpstan analyse
