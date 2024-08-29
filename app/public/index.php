@@ -10,5 +10,5 @@ try {
     error_log($e->getMessage());
     http_response_code(500);
     header('Content-Type: application/json');
-    echo json_encode(['error' => 'Internal server error'], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['error' => 'Internal crucial server error'], JSON_UNESCAPED_UNICODE);
 }

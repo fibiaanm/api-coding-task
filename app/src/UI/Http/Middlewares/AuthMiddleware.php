@@ -23,7 +23,6 @@ class AuthMiddleware
 
     function __invoke(Request $request, $handler): Response
     {
-        error_log('AuthMiddleware');
         try {
             $bearerToken = $request->getHeader('Authorization')[0] ?? '';
             if (!$bearerToken) {

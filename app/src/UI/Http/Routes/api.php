@@ -12,7 +12,8 @@ use App\UI\Http\Controllers\Factions\UpdateFactionController;
 use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use App\UI\Http\Controllers\Users\LoginController;
 use App\UI\Http\Middlewares\AuthMiddleware;
-use App\UI\Http\Middlewares\AuthorizationMiddleware;
+use App\UI\Http\Controllers\RequestValidators\CreateFactionValidator;
+use App\UI\Http\Controllers\RequestValidators\LoginUserValidation;
 
 /**
  * @var \Slim\App $app
@@ -25,8 +26,10 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) {
         $factions->get('/{id:[0-9]+}', DetailFactionController::class);
 
         $factions->group('', function (RouteCollectorProxy $factions) {
-            $factions->post('', CreateFactionController::class);
-            $factions->put('/{id:[0-9]+}', UpdateFactionController::class);
+            $factions->post('', CreateFactionController::class)
+                ->add(CreateFactionValidator::class);
+            $factions->put('/{id:[0-9]+}', UpdateFactionController::class)
+                ->add(CreateFactionValidator::class);
             $factions->delete('/{id:[0-9]+}', DeleteFactionController::class);
         })
             ->add(authorization(['admin']))
@@ -36,13 +39,13 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) {
 });
 
 /**
- * TODO: Implementar validadoress
  * TODO: Implementar caché
  * TODO: Implementar documentación
  */
 
 $app->group('/auth', function (RouteCollectorProxy $group) {
-    $group->post('/login', LoginController::class);
+    $group->post('/login', LoginController::class)
+        ->add(LoginUserValidation::class);
 });
 
 $app->get('', function (Request $request, Response $response) {

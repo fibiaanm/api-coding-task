@@ -47,6 +47,16 @@ class ResponseBuilder
         return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
     }
 
+    static public function validationError(string $message): Response
+    {
+        $response = new Response();
+        $response->getBody()->write(json_encode([
+            'status' => 'error',
+            'message' => $message
+        ], JSON_UNESCAPED_UNICODE));
+        return $response->withStatus(422)->withHeader('Content-Type', 'application/json');
+    }
+
     static public function serverError(string $message): Response
     {
         $response = new Response();
