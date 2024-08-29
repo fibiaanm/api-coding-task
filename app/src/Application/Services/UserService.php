@@ -7,6 +7,8 @@ use App\Domain\Entities\User;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenCannotCreateException;
+use App\Infrastructure\Exceptions\UserTokenExpired;
+use App\Infrastructure\Exceptions\UserTokenInvalidException;
 
 class UserService
 {
@@ -39,6 +41,16 @@ class UserService
         $token = $this->userRepository->createToken($user);
         $user->setToken($token);
         return $user;
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws UserTokenExpired
+     * @throws UserTokenInvalidException
+     */
+    public function validateToken($token): User
+    {
+        return $this->userRepository->findByToken($token);
     }
 
 

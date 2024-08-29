@@ -6,6 +6,8 @@ use App\Domain\Entities\User;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenCannotCreateException;
+use App\Infrastructure\Exceptions\UserTokenExpired;
+use App\Infrastructure\Exceptions\UserTokenInvalidException;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
 
 class UserRepository implements UserRepositoryInterface
@@ -50,5 +52,25 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return $jwt;
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws UserTokenExpired
+     * @throws UserTokenInvalidException
+     */
+    public function findByToken($token): User
+    {
+        $decoded = $this->tokenGenerator->decode($token);
+
+        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE user_token = :token");
+        $statement->execute(['token' => $token]);
+        $userFetched = $statement->fetch();
+
+        if (!$userFetched) {
+            throw new UserNotFoundException($token);
+        }
+
+        return User::fromSqlResponse($userFetched);
     }
 }

@@ -11,28 +11,33 @@ use \App\UI\Http\Controllers\Api\HomeController;
 use App\UI\Http\Controllers\Factions\UpdateFactionController;
 use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use App\UI\Http\Controllers\Users\LoginController;
+use App\UI\Http\Middlewares\AuthMiddleware;
 
 /**
  * @var \Slim\App $app
  */
-$app->group('/api', function (RouteCollectorProxy $group) {
-    $group->get('', HomeController::class);
+$app->group('/api', function (RouteCollectorProxy $apiGroup) {
+    $apiGroup->get('', HomeController::class)
+        ->add(AuthMiddleware::class);
 
-    $group->group('/factions', function (RouteCollectorProxy $group) {
+    $apiGroup->group('/factions', function (RouteCollectorProxy $factions) {
+        $factions->get('', ListFactionsController::class);
+        $factions->get('/{id:[0-9]+}', DetailFactionController::class);
 
-        $group->get('', ListFactionsController::class);
-        $group->get('/{id:[0-9]+}', DetailFactionController::class);
-
-        $group->post('', CreateFactionController::class);
-        $group->put('/{id:[0-9]+}', UpdateFactionController::class);
-        $group->delete('/{id:[0-9]+}', DeleteFactionController::class);
+        $factions->group('', function (RouteCollectorProxy $factions) {
+            $factions->post('', CreateFactionController::class);
+            $factions->put('/{id:[0-9]+}', UpdateFactionController::class);
+            $factions->delete('/{id:[0-9]+}', DeleteFactionController::class);
+        })->add(AuthMiddleware::class);
     });
 });
 
 /**
  * TODO: Implementar validadores
- * TODO: Implementar autenticación
+ * TODO: Builder de responses
  * TODO: Implementar autorización
+ * TODO: Implementar caché
+ * TODO: Implementar documentación
  */
 
 $app->group('/auth', function (RouteCollectorProxy $group) {
