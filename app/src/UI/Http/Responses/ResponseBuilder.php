@@ -27,6 +27,16 @@ class ResponseBuilder
         return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
     }
 
+    static public function forbidden(string $message): Response
+    {
+        $response = new Response();
+        $response->getBody()->write(json_encode([
+            'status' => 'error',
+            'message' => $message
+        ], JSON_UNESCAPED_UNICODE));
+        return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
+    }
+
     static public function notFound(string $message): Response
     {
         $response = new Response();

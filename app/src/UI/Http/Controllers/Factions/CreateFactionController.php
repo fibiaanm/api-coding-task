@@ -26,7 +26,7 @@ class CreateFactionController
             $dataFromRequest = json_decode($dataFromRequest, true);
 
             $faction = $this->factionsService->create($dataFromRequest);
-            return ResponseBuilder::success($faction);
+            return ResponseBuilder::success($faction->toArray());
         } catch (FactionNotCreatedException $e) {
             return ResponseBuilder::serverError('Faction not created');
         } catch (FactionNotFoundException $e) {

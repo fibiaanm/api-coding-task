@@ -23,6 +23,7 @@ class AuthMiddleware
 
     function __invoke(Request $request, $handler): Response
     {
+        error_log('AuthMiddleware');
         try {
             $bearerToken = $request->getHeader('Authorization')[0] ?? '';
             if (!$bearerToken) {
@@ -30,7 +31,8 @@ class AuthMiddleware
             }
             $token = str_replace('Bearer ', '', $bearerToken);
             $user = $this->userService->validateToken($token);
-            $request = $request->withAttribute('user', $user);
+            $user->token = $token;
+            $this->userService->authenticated($user);
             return $handler->handle($request);
         } catch (UserNotFoundException $e) {
             return ResponseBuilder::unauthorized('Unauthorized');

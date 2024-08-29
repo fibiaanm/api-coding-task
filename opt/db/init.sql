@@ -15,7 +15,8 @@ CREATE TABLE `users` (
 `id` int NOT NULL AUTO_INCREMENT,
 `user_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 `user_password` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-`user_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL,
+`user_rol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '',
+`user_token` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 PRIMARY KEY (`id`),
 UNIQUE KEY `user_name` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

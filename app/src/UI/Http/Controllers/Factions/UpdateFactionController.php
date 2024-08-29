@@ -24,7 +24,7 @@ class UpdateFactionController
 
             $faction = $this->factionsService->update($args['id'], $dataFromRequest);
 
-            return ResponseBuilder::success($faction);
+            return ResponseBuilder::success($faction->toArray());
 
         } catch (FactionNotFoundException $e) {
             return ResponseBuilder::notFound('Faction not found');

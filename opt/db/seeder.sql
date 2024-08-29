@@ -39,9 +39,11 @@ INSERT INTO `characters` (
 INSERT INTO `users` (
 `id`,
 `user_name`,
-`user_password`
+`user_password`,
+`user_rol`
 ) VALUES (
 1,
 'admin',
-'1f3d38abc5b698ad3c95341edefeb469'
+'1f3d38abc5b698ad3c95341edefeb469',
+'admin'
 );

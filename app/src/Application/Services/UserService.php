@@ -9,11 +9,13 @@ use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenCannotCreateException;
 use App\Infrastructure\Exceptions\UserTokenExpired;
 use App\Infrastructure\Exceptions\UserTokenInvalidException;
+use App\Infrastructure\Services\AuthenticatedUserService;
 
 class UserService
 {
     function __construct(
-        private UserRepositoryInterface $userRepository
+        private UserRepositoryInterface $userRepository,
+        private AuthenticatedUserService $authenticatedUserService
     )
     {
     }
@@ -51,6 +53,12 @@ class UserService
     public function validateToken($token): User
     {
         return $this->userRepository->findByToken($token);
+    }
+
+    public function authenticated(User $user): User
+    {
+        $this->authenticatedUserService->save($user);
+        return $user;
     }
 
 

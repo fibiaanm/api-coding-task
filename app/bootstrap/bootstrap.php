@@ -10,11 +10,16 @@ use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Repositories\FactionRepository;
 use App\Infrastructure\Repositories\UserRepository;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
+use App\Infrastructure\Services\AuthenticatedUserService;
 use App\Loaders\SecretsManager;
 use DI\Container;
 use Slim\Factory\AppFactory;
 
 $container = new Container();
+$GLOBALS['container'] = $container;
+
+require __DIR__ . '/helpers.php';
+
 $container->set(SecretsManager::class, function () {
     return SecretsManager::build();
 });
@@ -23,6 +28,11 @@ $container->set(PDO::class, function () use ($container) {
         $container->get(SecretsManager::class)
     );
 });
+$container->set(AuthenticatedUserService::class, function () {
+    return new AuthenticatedUserService();
+});
+
+
 $container->set(UserSessionTokenGenerator::class, function () use ($container) {
     return new UserSessionTokenGenerator(
         $container->get(SecretsManager::class)
@@ -47,7 +57,8 @@ $container->set(UserRepositoryInterface::class, function () use ($container) {
 });
 $container->set(UserService::class, function () use ($container) {
     return new UserService(
-        $container->get(UserRepositoryInterface::class)
+        $container->get(UserRepositoryInterface::class),
+        $container->get(AuthenticatedUserService::class)
     );
 });
 

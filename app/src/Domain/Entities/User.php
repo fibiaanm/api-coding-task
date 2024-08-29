@@ -8,6 +8,7 @@ class User
     public string $name;
     private string $password;
     public string $token = "";
+    public array $roles = [];
 
     static function fromSqlResponse(array $data): User
     {
@@ -15,6 +16,7 @@ class User
         $user->id = $data['id'];
         $user->name = $data['user_name'];
         $user->password = $data['user_password'];
+        $user->roles = explode(',', $data['user_rol']);
         return $user;
     }
 
@@ -33,7 +35,8 @@ class User
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'token' => $this->token
+            'token' => $this->token,
+            'roles' => $this->roles
         ];
     }
 }

@@ -36,7 +36,7 @@ class FactionsService
      * @throws FactionNotFoundException
      * @throws FactionNotCreatedException
      */
-    public function create($data)
+    public function create($data): Faction
     {
         return $this->factionRepository->create($data);
     }
@@ -44,7 +44,7 @@ class FactionsService
     /**
      * @throws FactionNotFoundException
      */
-    public function update($id, $data)
+    public function update($id, $data): Faction
     {
         return $this->factionRepository->update($id, $data);
     }
@@ -52,7 +52,7 @@ class FactionsService
     /**
      * @throws FactionNotFoundException
      */
-    public function delete($id)
+    public function delete($id): bool
     {
         return $this->factionRepository->delete($id);
     }

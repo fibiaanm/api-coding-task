@@ -12,13 +12,13 @@ use App\UI\Http\Controllers\Factions\UpdateFactionController;
 use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use App\UI\Http\Controllers\Users\LoginController;
 use App\UI\Http\Middlewares\AuthMiddleware;
+use App\UI\Http\Middlewares\AuthorizationMiddleware;
 
 /**
  * @var \Slim\App $app
  */
 $app->group('/api', function (RouteCollectorProxy $apiGroup) {
-    $apiGroup->get('', HomeController::class)
-        ->add(AuthMiddleware::class);
+    $apiGroup->get('', HomeController::class);
 
     $apiGroup->group('/factions', function (RouteCollectorProxy $factions) {
         $factions->get('', ListFactionsController::class);
@@ -28,17 +28,17 @@ $app->group('/api', function (RouteCollectorProxy $apiGroup) {
             $factions->post('', CreateFactionController::class);
             $factions->put('/{id:[0-9]+}', UpdateFactionController::class);
             $factions->delete('/{id:[0-9]+}', DeleteFactionController::class);
-        })->add(AuthMiddleware::class);
+        })
+            ->add(authorization(['admin']))
+            ->add(AuthMiddleware::class);
+
     });
 });
 
 /**
  * TODO: Implementar validadoress
- * TODO: Builder de responses
- * TODO: Implementar autorización
  * TODO: Implementar caché
  * TODO: Implementar documentación
- * TODO: Singletón autenticación
  */
 
 $app->group('/auth', function (RouteCollectorProxy $group) {
