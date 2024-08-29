@@ -12,6 +12,31 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
+    schema: 'CharacterPayload',
+    description: 'Standard character',
+    properties: [
+        new OA\Property(property: 'name', description: 'Updated name of the character', type: 'string', example: 'Updated name'),
+        new OA\Property(property: 'faction_id', description: 'Updated faction ID of the character', type: 'integer', example: 1),
+        new OA\Property(property: 'kingdom', description: 'Updated kingdom of the character', type: 'string', example: 'Updated kingdom'),
+        new OA\Property(property: 'birth_date', description: 'Updated birth date of the character', type: 'string', example: '2021-01-01'),
+        new OA\Property(property: 'equipment_id', description: 'Updated equipment ID of the character', type: 'integer', example: 1),
+    ],
+    type: 'object'
+)]
+#[OA\Schema(
+    schema: 'Character',
+    description: 'Standard character',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'name', type: 'string', example: 'El nombre del personaje'),
+        new OA\Property(property: 'faction_id', type: 'integer', example: 1),
+        new OA\Property(property: 'kingdom', type: 'string', example: 'El reino del personaje'),
+        new OA\Property(property: 'birth_date', type: 'string', example: '2021-01-01'),
+        new OA\Property(property: 'equipment_id', type: 'integer', example: 1),
+    ],
+    type: 'object'
+)]
+#[OA\Schema(
     schema: 'Factions',
     description: 'Standard faction',
     properties: [
