@@ -36,6 +36,7 @@ use Slim\Routing\RouteCollectorProxy;
 /**
  * @var \Slim\App $app
  */
+
 $app->group(
     '/api',
     function (
