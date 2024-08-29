@@ -24,11 +24,11 @@ class DeleteEquipmentController
     {
         try {
             $this->equipmentService->delete($args['id']);
-            return ResponseBuilder::success([], 204);
+            return ResponseBuilder::success([]);
         } catch (EquipmentNotFoundException $e) {
-            return ResponseBuilder::notFound($e->getMessage(), 404);
+            return ResponseBuilder::notFound($e->getMessage());
         } catch (\Exception $e) {
-            return ResponseBuilder::serverError($e->getMessage(), 500);
+            return ResponseBuilder::serverError($e->getMessage());
         }
     }
 

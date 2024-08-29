@@ -27,9 +27,9 @@ class DetailEquipmentController
             $equipment = $this->equipmentService->detail($args['id']);
             return ResponseBuilder::success($equipment->toArray());
         } catch (EquipmentNotFoundException $e) {
-            return ResponseBuilder::notFound($e->getMessage(), 404);
+            return ResponseBuilder::notFound($e->getMessage());
         } catch (\Exception $e) {
-            return ResponseBuilder::serverError($e->getMessage(), 500);
+            return ResponseBuilder::serverError($e->getMessage());
         }
     }
 
