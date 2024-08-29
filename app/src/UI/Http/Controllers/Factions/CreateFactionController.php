@@ -34,6 +34,18 @@ class CreateFactionController
                 ]
             )
         ),
+        parameters: [
+            new OA\Parameter(
+                name: 'Authorization',
+                description: 'Bearer token for authorization',
+                in: 'header',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'Bearer <your-token-here>'
+                )
+            )
+        ],
         responses: [
             new OA\Response(
                 response: 200,

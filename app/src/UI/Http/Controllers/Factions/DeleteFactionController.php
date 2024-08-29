@@ -34,6 +34,16 @@ class DeleteFactionController
                     format: 'int64',
                     example: 1
                 )
+            ),
+            new OA\Parameter(
+                name: 'Authorization',
+                description: 'Bearer token for authorization',
+                in: 'header',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    example: 'Bearer <your-token-here>'
+                )
             )
         ],
         responses: [

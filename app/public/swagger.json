@@ -105,6 +105,18 @@
             "post": {
                 "summary": "Create a new faction",
                 "operationId": "293a257dc72535c7c816a0db3c3a68d8",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "Faction creation payload",
                     "required": true,
@@ -284,6 +296,16 @@
                             "format": "int64",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
+                        }
                     }
                 ],
                 "requestBody": {
@@ -394,6 +416,16 @@
                             "type": "integer",
                             "format": "int64",
                             "example": 1
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
                         }
                     }
                 ],
