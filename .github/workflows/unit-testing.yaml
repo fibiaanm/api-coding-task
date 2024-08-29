@@ -3,19 +3,30 @@ name: PHP Tests
 on: [push, pull_request]
 
 jobs:
-  phpunit:
+  code-quality:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
+      - name: Set up Docker and Make
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y make docker-compose
 
-      - name: Install dependencies
-        run: composer install
+      - name: Build project
+        run: make build
 
-      - name: Run PHPUnit tests
-        run: vendor/bin/phpunit
+      - name: Build and start Docker containers
+        run: docker-compose up -d --build
+
+      - name: Install PHP CodeSniffer and PHPStan
+        run: |
+          docker-compose exec -T php composer install
+
+      - name: Run PHP UnitTests
+        run: docker-compose exec -T php vendor/bin/phpunit
+
+      - name: Stop and remove Docker containers
+        run: docker-compose down
