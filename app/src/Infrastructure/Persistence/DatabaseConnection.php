@@ -2,16 +2,19 @@
 
 namespace App\Infrastructure\Persistence;
 
+use App\Loaders\SecretsManager;
 use \PDO;
 
 class DatabaseConnection
 {
-    static function connect(): PDO
+    static function connect(
+        SecretsManager $secrets
+    ): PDO
     {
-        $host = 'db';
-        $dbname = 'lotr';
-        $user = 'root';
-        $pass = 'root';
+        $host = $secrets->secrets['db']['host'];
+        $user = $secrets->secrets['db']['user'];
+        $pass = $secrets->secrets['db']['password'];
+        $dbname = $secrets->secrets['db']['database'];
 
         $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
         $options = [

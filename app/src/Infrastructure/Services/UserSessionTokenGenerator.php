@@ -3,15 +3,24 @@
 namespace App\Infrastructure\Services;
 
 use App\Domain\Entities\User;
+use App\Loaders\SecretsManager;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 class UserSessionTokenGenerator
 {
 
-    static string $key = "my_secret_key";
+    static string $key = "";
 
-    static function generate(User $user): string
+    public function __construct(
+        SecretsManager $secrets
+    )
+    {
+        self::$key = $secrets->secrets['jwt']['key'];
+    }
+
+
+    public function generate(User $user): string
     {
         $expiration = time() + 3600;
         $data = [
@@ -23,7 +32,7 @@ class UserSessionTokenGenerator
         return JWT::encode($data, self::$key, "HS256");
     }
 
-    static function decode(string $token): array
+    public function decode(string $token): array
     {
         return (array) JWT::decode(
             $token,

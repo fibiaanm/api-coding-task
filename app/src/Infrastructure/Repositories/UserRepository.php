@@ -7,13 +7,14 @@ use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Exceptions\UserNotFoundException;
 use App\Infrastructure\Exceptions\UserTokenCannotCreateException;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
-use Firebase\JWT\JWT;
 
 class UserRepository implements UserRepositoryInterface
 {
+    private string $table = 'users';
 
     function __construct(
-        private \PDO $connection
+        private \PDO $connection,
+        private UserSessionTokenGenerator $tokenGenerator,
     )
     {
     }
@@ -23,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function find($name): User
     {
-        $statement = $this->connection->prepare("SELECT * FROM users WHERE user_name = :name");
+        $statement = $this->connection->prepare("SELECT * FROM $this->table WHERE user_name = :name");
         $statement->execute(['name' => $name]);
         $userFetched = $statement->fetch();
 
@@ -39,9 +40,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function createToken(User $user): string
     {
-        $jwt = UserSessionTokenGenerator::generate($user);
+        $jwt = $this->tokenGenerator->generate($user);
 
-        $statement = $this->connection->prepare("UPDATE users SET user_token = :token WHERE id = :id");
+        $statement = $this->connection->prepare("UPDATE $this->table SET user_token = :token WHERE id = :id");
         $statement->execute(['token' => $jwt, 'id' => $user->id]);
 
         if ($statement->rowCount() === 0) {

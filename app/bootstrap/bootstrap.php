@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use App\Application\Services\FactionsService;
 use App\Application\Services\UserService;
 use App\Domain\Repositories\FactionRepositoryInterface;
@@ -7,15 +9,24 @@ use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Repositories\FactionRepository;
 use App\Infrastructure\Repositories\UserRepository;
+use App\Infrastructure\Services\UserSessionTokenGenerator;
+use App\Loaders\SecretsManager;
 use DI\Container;
 use Slim\Factory\AppFactory;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 $container = new Container();
-
-$container->set(PDO::class, function () {
-    return DatabaseConnection::connect();
+$container->set(SecretsManager::class, function () {
+    return SecretsManager::build();
+});
+$container->set(PDO::class, function () use ($container) {
+    return DatabaseConnection::connect(
+        $container->get(SecretsManager::class)
+    );
+});
+$container->set(UserSessionTokenGenerator::class, function () use ($container) {
+    return new UserSessionTokenGenerator(
+        $container->get(SecretsManager::class)
+    );
 });
 $container->set(FactionRepositoryInterface::class, function () use ($container) {
     return new FactionRepository(
@@ -30,7 +41,8 @@ $container->set(FactionsService::class, function () use ($container) {
 
 $container->set(UserRepositoryInterface::class, function () use ($container) {
     return new UserRepository(
-        $container->get(PDO::class)
+        $container->get(PDO::class),
+        $container->get(UserSessionTokenGenerator::class)
     );
 });
 $container->set(UserService::class, function () use ($container) {
