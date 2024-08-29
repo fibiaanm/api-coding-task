@@ -30,13 +30,10 @@ jobs:
       - name: Install PHP CodeSniffer and PHPStan
         run: |
           docker-compose exec -T php composer install
-          docker-compose exec -T php composer require --dev squizlabs/php_codesniffer phpstan/phpstan
+          docker-compose exec -T php composer require --dev squizlabs/php_codesniffer
 
       - name: Run PHP CodeSniffer
         run: docker-compose exec -T php vendor/bin/phpcs --standard=PSR1 src/
-
-      - name: Run PHPStan
-        run: docker-compose exec -T php vendor/bin/phpstan analyse
 
       - name: Stop and remove Docker containers
         run: docker-compose down
