@@ -10,6 +10,7 @@ use App\UI\Http\Controllers\Factions\CreateFactionController;
 use \App\UI\Http\Controllers\Api\HomeController;
 use App\UI\Http\Controllers\Factions\UpdateFactionController;
 use App\UI\Http\Controllers\Factions\DeleteFactionController;
+use App\UI\Http\Controllers\Users\LoginController;
 
 /**
  * @var \Slim\App $app
@@ -26,7 +27,16 @@ $app->group('/api', function (RouteCollectorProxy $group) {
         $group->put('/{id:[0-9]+}', UpdateFactionController::class);
         $group->delete('/{id:[0-9]+}', DeleteFactionController::class);
     });
+});
 
+/**
+ * TODO: Implementar validadores
+ * TODO: Implementar autenticación
+ * TODO: Implementar autorización
+ */
+
+$app->group('/auth', function (RouteCollectorProxy $group) {
+    $group->post('/login', LoginController::class);
 });
 
 $app->get('', function (Request $request, Response $response) {

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Application\Services\Factions;
+namespace App\Application\Services;
 
+use App\Domain\Entities\Faction;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
@@ -26,7 +27,7 @@ class FactionsService
     /**
      * @throws FactionNotFoundException
      */
-    public function detail($id)
+    public function detail($id): Faction
     {
         return $this->factionRepository->find($id);
     }

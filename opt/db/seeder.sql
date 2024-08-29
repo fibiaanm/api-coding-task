@@ -35,3 +35,13 @@ INSERT INTO `characters` (
 1,
 1
 );
+
+INSERT INTO `users` (
+`id`,
+`user_name`,
+`user_password`
+) VALUES (
+1,
+'admin',
+'1f3d38abc5b698ad3c95341edefeb469'
+);

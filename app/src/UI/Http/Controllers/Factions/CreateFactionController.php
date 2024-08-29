@@ -2,10 +2,9 @@
 
 namespace App\UI\Http\Controllers\Factions;
 
-use App\Application\Services\Factions\FactionsService;
+use App\Application\Services\FactionsService;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
-use App\Infrastructure\Exceptions\FactionsNotFoundException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 

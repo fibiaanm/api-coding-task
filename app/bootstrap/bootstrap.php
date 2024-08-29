@@ -1,10 +1,14 @@
 <?php
-use Slim\Factory\AppFactory;
-use DI\Container;
-use App\Infrastructure\Persistence\DatabaseConnection;
+
+use App\Application\Services\FactionsService;
+use App\Application\Services\UserService;
 use App\Domain\Repositories\FactionRepositoryInterface;
+use App\Domain\Repositories\UserRepositoryInterface;
+use App\Infrastructure\Persistence\DatabaseConnection;
 use App\Infrastructure\Repositories\FactionRepository;
-use App\Application\Services\Factions\FactionsService;
+use App\Infrastructure\Repositories\UserRepository;
+use DI\Container;
+use Slim\Factory\AppFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -21,6 +25,17 @@ $container->set(FactionRepositoryInterface::class, function () use ($container) 
 $container->set(FactionsService::class, function () use ($container) {
     return new FactionsService(
         $container->get(FactionRepositoryInterface::class)
+    );
+});
+
+$container->set(UserRepositoryInterface::class, function () use ($container) {
+    return new UserRepository(
+        $container->get(PDO::class)
+    );
+});
+$container->set(UserService::class, function () use ($container) {
+    return new UserService(
+        $container->get(UserRepositoryInterface::class)
     );
 });
 
