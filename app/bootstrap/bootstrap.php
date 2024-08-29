@@ -7,6 +7,7 @@ use App\Application\Services\UserService;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Domain\Repositories\UserRepositoryInterface;
 use App\Infrastructure\Persistence\DatabaseConnection;
+use App\Infrastructure\Persistence\RedisConnection;
 use App\Infrastructure\Repositories\FactionRepository;
 use App\Infrastructure\Repositories\UserRepository;
 use App\Infrastructure\Services\UserSessionTokenGenerator;
@@ -28,6 +29,12 @@ $container->set(PDO::class, function () use ($container) {
         $container->get(SecretsManager::class)
     );
 });
+$container->set(Redis::class, function () use ($container) {
+    return RedisConnection::connect(
+        $container->get(SecretsManager::class)
+    );
+});
+
 $container->set(AuthenticatedUserService::class, function () {
     return new AuthenticatedUserService();
 });
@@ -39,8 +46,12 @@ $container->set(UserSessionTokenGenerator::class, function () use ($container) {
     );
 });
 $container->set(FactionRepositoryInterface::class, function () use ($container) {
-    return new FactionRepository(
-        $container->get(PDO::class)
+    return new \App\Application\Services\CacheDecorator(
+        $container->get(Redis::class),
+        $container->get(SecretsManager::class),
+        new FactionRepository(
+            $container->get(PDO::class)
+        )
     );
 });
 $container->set(FactionsService::class, function () use ($container) {

@@ -8,6 +8,7 @@ RUN apk --update add \
     php8-dev
 
 RUN docker-php-ext-install pdo_mysql
+RUN pecl install redis && docker-php-ext-enable redis
 
 RUN rm -rf /var/cache/apk/*
 

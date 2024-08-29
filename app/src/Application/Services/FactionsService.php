@@ -3,6 +3,7 @@
 namespace App\Application\Services;
 
 use App\Domain\Entities\Faction;
+use App\Domain\Entities\FactionCollection;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
@@ -11,7 +12,7 @@ use App\Infrastructure\Exceptions\FactionsNotFoundException;
 class FactionsService
 {
     public function __construct(
-        private FactionRepositoryInterface $factionRepository
+        private CacheDecorator $factionRepository
     )
     {
     }
@@ -19,7 +20,7 @@ class FactionsService
     /**
      * @throws FactionsNotFoundException
      */
-    public function list()
+    public function list(): FactionCollection
     {
         return $this->factionRepository->all();
     }

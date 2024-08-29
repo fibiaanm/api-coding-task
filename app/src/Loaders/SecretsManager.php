@@ -25,6 +25,11 @@ class SecretsManager
             ],
             'jwt' => [
                 'key' => $_ENV['JWT_KEY']
+            ],
+            'redis' => [
+                'host' => $_ENV['REDIS_HOST'],
+                'port' => $_ENV['REDIS_PORT'],
+                'expire' => $_ENV['REDIS_EXPIRE'],
             ]
         ]);
     }

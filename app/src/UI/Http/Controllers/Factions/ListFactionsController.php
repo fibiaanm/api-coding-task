@@ -22,11 +22,12 @@ class ListFactionsController
     {
         try {
             $factions =$this->factionsService->list();
-            return ResponseBuilder::success($factions);
+            return ResponseBuilder::success($factions->toArray());
         } catch (FactionsNotFoundException $e) {
             return ResponseBuilder::notFound('Factions not found');
+        } catch (\Exception $e) {
+            return ResponseBuilder::serverError('Internal server error');
         }
-
     }
 
 }

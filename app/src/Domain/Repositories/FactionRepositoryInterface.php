@@ -3,6 +3,7 @@
 namespace App\Domain\Repositories;
 
 use App\Domain\Entities\Faction;
+use App\Domain\Entities\FactionCollection;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
 use App\Infrastructure\Exceptions\FactionsNotFoundException;
@@ -12,7 +13,7 @@ interface FactionRepositoryInterface
     /**
      * @throws FactionsNotFoundException
      */
-    public function all();
+    public function all(): FactionCollection;
     /**
      * @throws FactionNotFoundException
      */

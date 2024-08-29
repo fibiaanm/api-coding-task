@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Repositories;
 
 use App\Domain\Entities\Faction;
+use App\Domain\Entities\FactionCollection;
 use App\Domain\Repositories\FactionRepositoryInterface;
 use App\Infrastructure\Exceptions\FactionNotCreatedException;
 use App\Infrastructure\Exceptions\FactionNotFoundException;
@@ -22,7 +23,7 @@ class FactionRepository implements FactionRepositoryInterface
     /**
      * @throws FactionsNotFoundException
      */
-    public function all(): array
+    public function all(): FactionCollection
     {
         $statement = $this->connection->query("SELECT * FROM $this->table");
         $factionsFetched = $statement->fetchAll();
@@ -31,9 +32,9 @@ class FactionRepository implements FactionRepositoryInterface
             throw new FactionsNotFoundException();
         }
 
-        $factions = [];
+        $factions = new FactionCollection();
         foreach ($factionsFetched as $factionFetched) {
-            $factions[] = Faction::fromSqlResponse($factionFetched);
+            $factions->add(Faction::fromSqlResponse($factionFetched));
         }
         return $factions;
     }
@@ -91,5 +92,14 @@ class FactionRepository implements FactionRepositoryInterface
         $statement = $this->connection->prepare("DELETE FROM $this->table WHERE id = :id");
         $statement->execute(['id' => $id]);
         return $statement->rowCount() > 0;
+    }
+
+    public function convertFromCache(array $data): Faction|FactionCollection
+    {
+        if (isset($data['name'])) {
+            return Faction::fromArray($data);
+        }
+
+        return FactionCollection::fromArray($data);
     }
 }

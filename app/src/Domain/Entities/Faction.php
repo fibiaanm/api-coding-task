@@ -19,6 +19,16 @@ class Faction
         return $faction;
     }
 
+    static function fromArray(
+        array $data
+    ): Faction {
+        $faction = new Faction();
+        $faction->id = $data['id'];
+        $faction->name = $data['name'];
+        $faction->description = $data['description'];
+        return $faction;
+    }
+
     public function toArray(): array
     {
         return [
