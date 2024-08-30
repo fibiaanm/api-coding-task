@@ -111,6 +111,7 @@ class UpdateCharacterController
         } catch (CharacterNotFoundException $e) {
             return ResponseBuilder::notFound($e->getMessage());
         } catch (\Exception $e) {
+            error_log($e->getMessage());
             return ResponseBuilder::serverError($e->getMessage());
         }
     }

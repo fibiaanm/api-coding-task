@@ -64,9 +64,9 @@ class CharacterApiTest extends TestCase
             'json' => [
                 'name' => 'Character Test Updated',
                 'birth_date' => '2021-01-02',
-                'faction_id' => 2,
+                'faction_id' => 1,
                 'kingdom' => 'Kingdom Test Updated',
-                'equipment_id' => 2,
+                'equipment_id' => 1,
             ],
             'headers' => [
                 'Authorization' => 'Bearer ' . $this->token
@@ -76,9 +76,9 @@ class CharacterApiTest extends TestCase
         $responseResult = json_decode($response->getBody(), true);
         $this->assertEquals('Character Test Updated', $responseResult['data']['name']);
         $this->assertEquals('2021-01-02', $responseResult['data']['birth_date']);
-        $this->assertEquals(2, $responseResult['data']['factionId']);
+        $this->assertEquals(1, $responseResult['data']['factionId']);
         $this->assertEquals('Kingdom Test Updated', $responseResult['data']['kingdom']);
-        $this->assertEquals(2, $responseResult['data']['equipmentId']);
+        $this->assertEquals(1, $responseResult['data']['equipmentId']);
     }
 
     public function testDeleteCharacterApi(): void
