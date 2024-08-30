@@ -1,7 +1,9 @@
 <?php
 
-use App\UI\Http\Controllers\Factions\DetailFactionController;
+namespace Unit;
+
 use App\Application\Services\FactionsService;
+use App\UI\Http\Controllers\Factions\DetailFactionController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 

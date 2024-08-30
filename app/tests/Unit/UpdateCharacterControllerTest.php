@@ -1,16 +1,17 @@
 <?php
 
-use App\UI\Http\Controllers\Characters\DeleteCharacterController;
+namespace Unit;
+
 use App\Application\Services\CharacterService;
+use App\UI\Http\Controllers\Characters\UpdateCharacterController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
 
-
-class DeleteCharacterControllerTest extends TestCase
+class UpdateCharacterControllerTest extends TestCase
 {
 
-    private DeleteCharacterController $controller;
+    private UpdateCharacterController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -18,12 +19,12 @@ class DeleteCharacterControllerTest extends TestCase
     protected function setUp(): void
     {
         $characterService = $this->createMock(CharacterService::class);
-        $this->controller = new DeleteCharacterController(
+        $this->controller = new UpdateCharacterController(
             $characterService
         );
     }
 
-    function testDeleteCharacterPage(): void
+    function testUpdateCharacterPage(): void
     {
         $request = (new ServerRequestFactory())->createServerRequest('POST', '/characters');
         $response = new Response();
@@ -31,5 +32,9 @@ class DeleteCharacterControllerTest extends TestCase
 
         $this->assertEquals(200, $response->getStatusCode());
     }
+
+}
+
+{
 
 }

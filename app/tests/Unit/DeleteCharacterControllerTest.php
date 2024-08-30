@@ -1,15 +1,18 @@
 <?php
 
-use App\UI\Http\Controllers\Characters\ListCharactersController;
+namespace Unit;
+
 use App\Application\Services\CharacterService;
+use App\UI\Http\Controllers\Characters\DeleteCharacterController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
 
-class ListCharacterControllerTest extends TestCase
+
+class DeleteCharacterControllerTest extends TestCase
 {
 
-    private ListCharactersController $controller;
+    private DeleteCharacterController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -17,21 +20,18 @@ class ListCharacterControllerTest extends TestCase
     protected function setUp(): void
     {
         $characterService = $this->createMock(CharacterService::class);
-        $this->controller = new ListCharactersController(
+        $this->controller = new DeleteCharacterController(
             $characterService
         );
     }
 
-    function testListCharacterPage(): void
+    function testDeleteCharacterPage(): void
     {
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/characters');
+        $request = (new ServerRequestFactory())->createServerRequest('POST', '/characters');
         $response = new Response();
-        $response = ($this->controller)($request, $response);
+        $response = ($this->controller)($request, $response, ['id' => 1]);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
-
-}
-{
 
 }

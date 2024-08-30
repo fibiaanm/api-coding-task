@@ -7,6 +7,20 @@ use Slim\Psr7\Response;
 class ResponseBuilder
 {
 
+    static public function created(array $data): Response
+    {
+        $response = new Response();
+        $response->getBody()->write(
+            json_encode(
+                [
+                'status' => 'success',
+                'data' => $data
+                ], JSON_UNESCAPED_UNICODE
+            )
+        );
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    }
+
     static public function success(array $data): Response
     {
         $response = new Response();

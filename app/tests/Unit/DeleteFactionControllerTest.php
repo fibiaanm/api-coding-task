@@ -1,14 +1,16 @@
 <?php
 
-use App\UI\Http\Controllers\Factions\UpdateFactionController;
+namespace Unit;
+
 use App\Application\Services\FactionsService;
+use App\UI\Http\Controllers\Factions\DeleteFactionController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 
-class UpdateFactionControllerTest extends TestCase
+class DeleteFactionControllerTest extends TestCase
 {
 
-    private UpdateFactionController $controller;
+    private DeleteFactionController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -16,18 +18,17 @@ class UpdateFactionControllerTest extends TestCase
     protected function setUp(): void
     {
         $factionService = $this->createMock(FactionsService::class);
-        $this->controller = new UpdateFactionController(
+        $this->controller = new DeleteFactionController(
             $factionService
         );
     }
 
-    function testUpdateFactionPage(): void
+    function testDeleteFactionPage(): void
     {
-        $request = (new ServerRequestFactory())->createServerRequest('PUT', '/factions/1');
+        $request = (new ServerRequestFactory())->createServerRequest('DELETE', '/factions/1');
         $response = new \Slim\Psr7\Response();
         $response = ($this->controller)($request, $response, ['id' => 1]);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
-
 }

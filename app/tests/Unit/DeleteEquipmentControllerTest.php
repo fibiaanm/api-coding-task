@@ -1,15 +1,17 @@
 <?php
 
-use App\UI\Http\Controllers\Equipments\DetailEquipmentController;
+namespace Unit;
+
 use App\Application\Services\EquipmentService;
+use App\UI\Http\Controllers\Equipments\DeleteEquipmentController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
 
-class DetailEquipmentControllerTest extends TestCase
+class DeleteEquipmentControllerTest extends TestCase
 {
 
-    private DetailEquipmentController $controller;
+    private DeleteEquipmentController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -17,14 +19,14 @@ class DetailEquipmentControllerTest extends TestCase
     protected function setUp(): void
     {
         $equipmentService = $this->createMock(EquipmentService::class);
-        $this->controller = new DetailEquipmentController(
+        $this->controller = new DeleteEquipmentController(
             $equipmentService
         );
     }
 
-    function testDetailEquipmentPage(): void
+    function testDeleteEquipmentPage(): void
     {
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/equipments');
+        $request = (new ServerRequestFactory())->createServerRequest('POST', '/equipments');
         $response = new Response();
         $response = ($this->controller)($request, $response, ['id' => 1]);
 

@@ -1,14 +1,17 @@
 <?php
+
+namespace Unit;
+
+use App\UI\Http\Controllers\Api\HomeController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
-use App\UI\Http\Controllers\Api\HomeController;
 
 class HomeControllerTest extends TestCase
 {
 
     private HomeController $controller;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         $this->controller = new HomeController();
     }

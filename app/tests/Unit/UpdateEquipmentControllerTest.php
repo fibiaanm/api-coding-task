@@ -1,15 +1,17 @@
 <?php
 
-use App\UI\Http\Controllers\Equipments\ListEquipmentController;
+namespace Unit;
+
 use App\Application\Services\EquipmentService;
+use App\UI\Http\Controllers\Equipments\UpdateEquipmentController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
 
-class ListEquipmentControllerTest extends TestCase
+class UpdateEquipmentControllerTest extends TestCase
 {
 
-    private ListEquipmentController $controller;
+    private UpdateEquipmentController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -17,16 +19,16 @@ class ListEquipmentControllerTest extends TestCase
     protected function setUp(): void
     {
         $equipmentService = $this->createMock(EquipmentService::class);
-        $this->controller = new ListEquipmentController(
+        $this->controller = new UpdateEquipmentController(
             $equipmentService
         );
     }
 
-    function testListEquipmentPage(): void
+    function testUpdateEquipmentPage(): void
     {
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/equipments');
+        $request = (new ServerRequestFactory())->createServerRequest('POST', '/equipments');
         $response = new Response();
-        $response = ($this->controller)($request, $response);
+        $response = ($this->controller)($request, $response, ['id' => 1]);
 
         $this->assertEquals(200, $response->getStatusCode());
     }

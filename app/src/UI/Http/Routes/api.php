@@ -220,7 +220,7 @@ $app->group(
 );
 
 $app->get(
-    '', function (Request $request, Response $response) {
+    '/', function (Request $request, Response $response) {
         phpinfo();
         $response->withHeader('Content-Type', 'text/html');
     }

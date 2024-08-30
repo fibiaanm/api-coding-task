@@ -26,7 +26,7 @@ class CreateEquipmentController
             $bodyEncoded = $request->getBody();
             $body = json_decode($bodyEncoded, true);
             $equipment = $this->equipmentService->create($body);
-            return ResponseBuilder::success($equipment->toArray());
+            return ResponseBuilder::created($equipment->toArray());
         } catch (EquipmentNotFoundException $e) {
             return ResponseBuilder::notFound($e->getMessage());
         } catch (\Exception $e) {

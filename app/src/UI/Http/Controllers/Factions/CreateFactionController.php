@@ -47,7 +47,7 @@ class CreateFactionController
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: 201,
                 description: 'Successful faction creation',
                 content: new OA\JsonContent(
                     properties: [
@@ -98,7 +98,7 @@ class CreateFactionController
             $dataFromRequest = json_decode($dataFromRequest, true);
 
             $faction = $this->factionsService->create($dataFromRequest);
-            return ResponseBuilder::success($faction->toArray());
+            return ResponseBuilder::created($faction->toArray());
         } catch (FactionNotCreatedException $e) {
             return ResponseBuilder::serverError('Faction not created');
         } catch (FactionNotFoundException $e) {

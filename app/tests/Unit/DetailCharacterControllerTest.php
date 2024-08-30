@@ -1,7 +1,9 @@
 <?php
 
-use App\UI\Http\Controllers\Characters\DetailCharacterController;
+namespace Unit;
+
 use App\Application\Services\CharacterService;
+use App\UI\Http\Controllers\Characters\DetailCharacterController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
@@ -32,6 +34,7 @@ class DetailCharacterControllerTest extends TestCase
     }
 
 }
+
 {
 
 }

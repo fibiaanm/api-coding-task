@@ -119,6 +119,7 @@ try {
     $app->add(function ($request, $handler) {
         $uri = $request->getUri();
         $path = $uri->getPath();
+        error_log($path);
 
         // Remove trailing slash if not root
         if ($path != '/' && str_ends_with($path, '/')) {
@@ -131,7 +132,7 @@ try {
     });
 
     require __DIR__ . '/../src/UI/Http/Routes/api.php';
-    $app->run();
+
 }catch (\Slim\Exception\HttpNotFoundException $e) {
     http_response_code(404);
     header('Content-Type: application/json');

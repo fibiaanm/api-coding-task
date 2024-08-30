@@ -1,15 +1,17 @@
 <?php
 
-use App\UI\Http\Controllers\Characters\UpdateCharacterController;
+namespace Unit;
+
 use App\Application\Services\CharacterService;
+use App\UI\Http\Controllers\Characters\CreateCharacterController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Response;
 
-class UpdateCharacterControllerTest extends TestCase
+class CreateCharacterControllerTest extends TestCase
 {
 
-    private UpdateCharacterController $controller;
+    private CreateCharacterController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -17,21 +19,18 @@ class UpdateCharacterControllerTest extends TestCase
     protected function setUp(): void
     {
         $characterService = $this->createMock(CharacterService::class);
-        $this->controller = new UpdateCharacterController(
+        $this->controller = new CreateCharacterController(
             $characterService
         );
     }
 
-    function testUpdateCharacterPage(): void
+    function testCreateCharacterPage(): void
     {
         $request = (new ServerRequestFactory())->createServerRequest('POST', '/characters');
         $response = new Response();
-        $response = ($this->controller)($request, $response, ['id' => 1]);
+        $response = ($this->controller)($request, $response);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
     }
-
-}
-{
 
 }

@@ -1,14 +1,17 @@
 <?php
 
-use App\UI\Http\Controllers\Factions\ListFactionsController;
+namespace Unit;
+
 use App\Application\Services\FactionsService;
+use App\UI\Http\Controllers\Factions\CreateFactionController;
 use PHPUnit\Framework\TestCase;
 use Slim\Psr7\Factory\ServerRequestFactory;
 
-class ListFactionsControllerTest extends TestCase
+
+class CreateFactionControllerTest extends TestCase
 {
 
-    private ListFactionsController $controller;
+    private CreateFactionController $controller;
 
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
@@ -16,18 +19,18 @@ class ListFactionsControllerTest extends TestCase
     protected function setUp(): void
     {
         $factionService = $this->createMock(FactionsService::class);
-        $this->controller = new ListFactionsController(
+        $this->controller = new CreateFactionController(
             $factionService
         );
     }
 
-    function testListFactionsPage(): void
+    function testCreateFactionPage(): void
     {
-        $request = (new ServerRequestFactory())->createServerRequest('GET', '/factions');
+        $request = (new ServerRequestFactory())->createServerRequest('POST', '/factions');
         $response = new \Slim\Psr7\Response();
         $response = ($this->controller)($request, $response);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
     }
 
 }

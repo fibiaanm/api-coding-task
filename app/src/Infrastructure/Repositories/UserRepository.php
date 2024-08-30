@@ -46,6 +46,7 @@ class UserRepository implements UserRepositoryInterface
         $statement = $this->connection->prepare("UPDATE $this->table SET user_token = :token WHERE id = :id");
         $statement->execute(['token' => $jwt, 'id' => $user->id]);
 
+
         if ($statement->rowCount() === 0) {
             throw new UserTokenCannotCreateException();
         }

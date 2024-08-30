@@ -43,7 +43,7 @@ class CreateCharacterController
         ],
         responses: [
             new OA\Response(
-                response: 200,
+                response: 201,
                 description: 'Successful character creation',
                 content: new OA\JsonContent(
                     properties: [
@@ -93,7 +93,7 @@ class CreateCharacterController
             $encodedData = $request->getBody();
             $data = json_decode($encodedData, true);
             $character = $this->characterService->create($data);
-            return ResponseBuilder::success($character->toArray());
+            return ResponseBuilder::created($character->toArray());
         } catch (CharacterNotFoundException|CharacterNotCreatedException $e) {
             return ResponseBuilder::notFound($e->getMessage());
         }
