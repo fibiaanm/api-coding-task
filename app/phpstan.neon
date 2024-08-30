@@ -1,6 +1,6 @@
 parameters:
     bootstrapFiles:
-        - bootstrap/bootstrap.php
+        - Bootstrap/Bootstrap.php
     level: 1
     paths:
         - src  # Adjust this path to your source code directory
