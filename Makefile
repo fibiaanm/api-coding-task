@@ -43,13 +43,16 @@ help: ## Listar comandos disponibles en este Makefile
 
 
 # BUILD COMMANDS -------------------------------------------------------------------------------------------------------
-build: build-container composer-install ## Construye las dependencias del proyecto
+build: build-container composer-install prepare-env## Construye las dependencias del proyecto
 
 build-container: ## Construye el contenedor de la aplicación
 	docker build --no-cache --target development -t $(IMAGE_NAME):$(IMAGE_TAG_DEV) .
 
 composer-install: ## Instala las dependencias via composer
 	docker run --rm -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer install --verbose
+
+prepare-env:
+	cp app/.env.example app/.env
 
 composer-update: ## Actualiza las dependencias via composer
 	docker run --rm -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer update --verbose
