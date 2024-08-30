@@ -21,7 +21,7 @@ class ListCharactersController
 
     #[OA\Get(
         path: '/api/characters',
-        summary: 'Get a list of factions',
+        summary: 'Get a list of characters',
         parameters: [
             new OA\Parameter(ref: '#/components/parameters/PageParameter'),
             new OA\Parameter(ref: '#/components/parameters/LimitParameter')
@@ -29,7 +29,7 @@ class ListCharactersController
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Successful response with a list of factions',
+                description: 'Successful response with a list of characters',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(

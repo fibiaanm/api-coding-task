@@ -53,7 +53,7 @@ class UpdateCharacterController
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Successful update of the faction',
+                description: 'Successful update of the equipment',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(property: 'status', type: 'string', example: 'success'),

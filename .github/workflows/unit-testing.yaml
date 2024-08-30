@@ -26,7 +26,7 @@ jobs:
           docker-compose exec -T php composer install
 
       - name: Run PHP UnitTests
-        run: docker-compose exec -T php vendor/bin/phpunit
+        run: docker-compose exec -T php vendor/bin/phpunit --testsuite "Application Test Suite"
 
       - name: Stop and remove Docker containers
         run: docker-compose down

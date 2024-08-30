@@ -20,7 +20,7 @@ class DetailCharacterController
 
     #[OA\Get(
         path: '/api/characters/{id}',
-        summary: 'Get a specific faction by ID',
+        summary: 'Get a specific character by ID',
         parameters: [
             new OA\Parameter(
                 name: 'id',

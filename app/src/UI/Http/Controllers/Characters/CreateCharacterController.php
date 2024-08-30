@@ -20,7 +20,7 @@ class CreateCharacterController
     }
 
     #[OA\Post(
-        path: '/api/character',
+        path: '/api/characters',
         summary: 'Create a new character',
         requestBody: new OA\RequestBody(
             description: 'Character creation payload',

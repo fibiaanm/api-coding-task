@@ -24,6 +24,18 @@ use OpenApi\Attributes as OA;
     type: 'object'
 )]
 #[OA\Schema(
+    schema: 'EquipmentPayload',
+    description: 'Standard equipment',
+    properties: [
+        new OA\Property(property: 'name', description: 'Updated name of the equipment', type: 'string', example: 'Updated name'),
+        new OA\Property(property: 'faction_id', description: 'Updated faction ID of the equipment', type: 'integer', example: 1),
+        new OA\Property(property: 'kingdom', description: 'Updated kingdom of the equipment', type: 'string', example: 'Updated kingdom'),
+        new OA\Property(property: 'birth_date', description: 'Updated birth date of the equipment', type: 'string', example: '2021-01-01'),
+        new OA\Property(property: 'equipment_id', description: 'Updated equipment ID of the equipment', type: 'integer', example: 1),
+    ],
+    type: 'object'
+)]
+#[OA\Schema(
     schema: 'Character',
     description: 'Standard character',
     properties: [
@@ -33,6 +45,17 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: 'kingdom', type: 'string', example: 'El reino del personaje'),
         new OA\Property(property: 'birth_date', type: 'string', example: '2021-01-01'),
         new OA\Property(property: 'equipment_id', type: 'integer', example: 1),
+    ],
+    type: 'object'
+)]
+#[OA\Schema(
+    schema: 'Equipment',
+    description: 'Standard equipment',
+    properties: [
+        new OA\Property(property: 'id', type: 'integer', example: 1),
+        new OA\Property(property: 'name', type: 'string', example: 'El nombre del personaje'),
+        new OA\Property(property: 'type', type: 'string', example: 'El tipo del equipo'),
+        new OA\Property(property: 'made_by', type: 'string', example: 'El fabricante del equipo'),
     ],
     type: 'object'
 )]

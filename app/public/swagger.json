@@ -6,10 +6,105 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/character": {
+        "/api/characters": {
+            "get": {
+                "summary": "Get a list of characters",
+                "operationId": "e9a1b1c7453f5a0c39c58942e9f22a3a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/PageParameter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/LimitParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with a list of characters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "next_page": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "character": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Character"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Character not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Character not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors on query parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Field limit is invalid"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "summary": "Create a new character",
-                "operationId": "cb06ac4bb7627a8206ce47ada94cdd8d",
+                "operationId": "279d18aa4b4b973335ecb78d67b0aab9",
                 "parameters": [
                     {
                         "name": "Authorization",
@@ -34,7 +129,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful character creation",
                         "content": {
                             "application/json": {
@@ -108,7 +203,7 @@
         },
         "/api/characters/{id}": {
             "get": {
-                "summary": "Get a specific faction by ID",
+                "summary": "Get a specific character by ID",
                 "operationId": "dd85006255a91703852f6496a7756a13",
                 "parameters": [
                     {
@@ -214,7 +309,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful update of the faction",
+                        "description": "Successful update of the equipment",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -384,10 +479,10 @@
                 }
             }
         },
-        "/api/characters": {
+        "/api/equipments": {
             "get": {
-                "summary": "Get a list of factions",
-                "operationId": "e9a1b1c7453f5a0c39c58942e9f22a3a",
+                "summary": "Get a list of equipments",
+                "operationId": "00f743a841e3b15f9f109ee9b3e7bf15",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/PageParameter"
@@ -398,7 +493,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response with a list of factions",
+                        "description": "Successful response with a list of equipments",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -413,10 +508,10 @@
                                                     "type": "string",
                                                     "example": ""
                                                 },
-                                                "character": {
+                                                "equipment": {
                                                     "type": "array",
                                                     "items": {
-                                                        "$ref": "#/components/schemas/Character"
+                                                        "$ref": "#/components/schemas/Equipment"
                                                     }
                                                 }
                                             },
@@ -429,7 +524,7 @@
                         }
                     },
                     "404": {
-                        "description": "Character not found",
+                        "description": "Equipment not found",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -440,7 +535,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Character not found"
+                                            "example": "Equipment not found"
                                         }
                                     },
                                     "type": "object"
@@ -464,6 +559,382 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new equipment",
+                "operationId": "3bcdf834e93a069a3490dbaf4dd4475d",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Equipment creation payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EquipmentPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful equipment creation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "": {
+                                            "$ref": "#/components/schemas/Character"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error for the input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/equipments/{id}": {
+            "get": {
+                "summary": "Get a specific equipment by ID",
+                "operationId": "43e4e00f5da1ad34e6b3e4633ea15d5e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the equipment to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with faction details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "": {
+                                            "$ref": "#/components/schemas/Equipment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faction not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Character not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update a specific equipment by ID",
+                "operationId": "975867e8fb3f945dfe92b861fa1006a3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the character to update",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Character update payload",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EquipmentPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful update of the equipment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "": {
+                                            "$ref": "#/components/schemas/Equipment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faction not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error for the input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServerErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a specific equipment by ID",
+                "operationId": "9e057ba49feb53d1cb0c772abfa578b1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the equipment to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer token for authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer <your-token-here>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful deletion of the equipment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Character deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Faction not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFoundResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnauthorizedResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error for the input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationError"
                                 }
                             }
                         }
@@ -616,7 +1087,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful faction creation",
                         "content": {
                             "application/json": {
@@ -1149,6 +1620,37 @@
                 },
                 "type": "object"
             },
+            "EquipmentPayload": {
+                "description": "Standard equipment",
+                "properties": {
+                    "name": {
+                        "description": "Updated name of the equipment",
+                        "type": "string",
+                        "example": "Updated name"
+                    },
+                    "faction_id": {
+                        "description": "Updated faction ID of the equipment",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "kingdom": {
+                        "description": "Updated kingdom of the equipment",
+                        "type": "string",
+                        "example": "Updated kingdom"
+                    },
+                    "birth_date": {
+                        "description": "Updated birth date of the equipment",
+                        "type": "string",
+                        "example": "2021-01-01"
+                    },
+                    "equipment_id": {
+                        "description": "Updated equipment ID of the equipment",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "Character": {
                 "description": "Standard character",
                 "properties": {
@@ -1175,6 +1677,28 @@
                     "equipment_id": {
                         "type": "integer",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "Equipment": {
+                "description": "Standard equipment",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "El nombre del personaje"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "El tipo del equipo"
+                    },
+                    "made_by": {
+                        "type": "string",
+                        "example": "El fabricante del equipo"
                     }
                 },
                 "type": "object"
