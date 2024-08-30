@@ -1,0 +1,8 @@
+make test
+TEST_STATUS=$?
+
+if [ $TEST_STATUS -ne 0 ]; then
+    echo "Tests failed, commit aborted."
+    exit 1
+fi
+exit 0

@@ -54,6 +54,10 @@ composer-install: ## Instala las dependencias via composer
 prepare-env:
 	cp app/.env.example app/.env
 
+prepare-hooks:
+	cp hooks/pre-commit .git/hooks/pre-commit
+	chmod +x .git/hooks/pre-commit
+
 composer-update: ## Actualiza las dependencias via composer
 	docker run --rm -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer update --verbose
 
