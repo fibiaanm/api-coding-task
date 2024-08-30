@@ -2,9 +2,24 @@
 
 This is the technical test project for API oriented backends.
 
-## Technical requirements
+## About
 
-- [Docker](https://www.docker.com/)
+- The API is built using DDD (Domain Driven Design) and Hexagonal Architecture.
+- The API uses the Slim Framework as the HTTP layer.
+- The Requests have a validation layer using the `Respect\Validation` library.
+- The Responses are normalized using a Response builder class and with model transformers.
+- The API uses native sql queries to interact with the database.
+- The API uses JWT for authentication.
+- The API has a middleware to validate the JWT token.
+- The API has a helper function to simplify the access to the current user.
+- The API has a middleware to validate authorization.
+- The API has redis as a cache system.
+- The API has documentation using OpenAPI.
+- The API has tests using PHPUnit.
+- The database had a migration to create the tables and seed to populate the tables.
+- There are some configurations on the database to grant correct character encoding.
+- The repository has hooks before commit to run the tests.
+- The repository has a GitHub Action to run the tests and code quality validation on every push.
 
 ## Build
 
@@ -12,7 +27,46 @@ This is the technical test project for API oriented backends.
 make build
 ```
 
-This command executes the Docker image building process and performs the [Composer](https://getcomposer.org) dependencies installation.
+- This command executes the Docker image building process and performs the [Composer](https://getcomposer.org) dependencies installation.
+- This command will also create a `.env` file based on the `.env.example` file.
+
+## Run
+
+```bash
+make run
+```
+- This command starts the Docker containers and the PHP built-in development server.
+- The API will be available at [http://localhost:8080](http://localhost:8080).
+- The database will be available at `localhost:3306`.
+- The database credentials are on the `.env` file.
+- There is a Redis container available at `localhost:6379`.
+
+## Stop
+
+```bash
+make stop
+```
+
+## Documentation
+
+The API documentation is available at [http://localhost:8080/api/documentation](http://localhost:8080/api/documentation).
+
+## Tests
+
+```bash
+make test
+```
+
+- This command executes the PHPUnit tests.
+- This command will execute the Integration tests.
+- The tests are located in the `tests` directory.
+
+## Caché
+
+- The API uses Redis as a cache system.
+- The cache is enabled by default.
+- The cache TTL is set to 60 seconds.
+- All the services to list and get detail use the cache.
 
 ---
 
@@ -24,10 +78,10 @@ Type `make help` for more tasks present in `Makefile`.
 
 The following add-ons will be positively evaluated:
 
-- Authentication
-- Authorization
-- Cache
-- Documentation
+- [x] Authentication
+- [x] Authorization
+- [x] Cache
+- [x] Documentation
 
 ---
 

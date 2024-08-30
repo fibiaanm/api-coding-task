@@ -62,3 +62,12 @@ composer-require: ## Añade nuevas dependencias de producción
 
 composer-require-dev: ## Añade nuevas dependencias de desarrollo
 	docker run --rm -ti -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer require --dev --verbose
+
+run: ## Ejecuta la aplicación
+	docker-compose up --build
+
+stop: ## Detiene la aplicación
+	docker-compose down
+
+test: ## Ejecuta los tests
+	docker-compose exec -T php vendor/bin/phpunit
